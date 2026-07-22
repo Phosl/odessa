@@ -132,7 +132,7 @@ test('reduced motion navigation reaches and focuses the destination', async ({pa
   await expect(page.locator('main')).toBeFocused()
 })
 
-test('builds the Odessa mark before revealing the destination', async ({page}, testInfo) => {
+test('flows the Odessa lines continuously into the destination', async ({page}, testInfo) => {
   if (testInfo.project.name === 'desktop') await page.setViewportSize({width: 1440, height: 1000})
   await page.goto('/en')
   const overlay = page.getByTestId('transition-overlay')
@@ -148,13 +148,13 @@ test('builds the Odessa mark before revealing the destination', async ({page}, t
 
   await page.getByRole('link', {name: 'The project'}).first().click()
   await expect(overlay).toBeVisible()
+  await expect(overlay).toHaveAttribute('data-transition-state', 'building')
+  await expect(page).toHaveURL(/\/en$/)
   await expect(page.locator('[aria-live="polite"]')).toHaveText('Opening page: The project')
   if (testInfo.project.name === 'desktop') {
-    await page.waitForTimeout(560)
+    await page.waitForTimeout(470)
     await page.screenshot({path: 'test-results/odessa-transition-1440.png'})
   }
-  await expect(overlay).toHaveAttribute('data-transition-state', 'covering')
-  await expect(page).toHaveURL(/\/en$/)
   await expect(page).toHaveURL(/\/en\/project$/)
   await expect(page.locator('main')).toBeFocused()
   await expect(page.locator('[aria-live="polite"]')).toHaveText('Page opened: Cooperation means designing together.')

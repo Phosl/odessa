@@ -37,9 +37,12 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
   const sunRef = useRef<HTMLSpanElement>(null)
   const liveRef = useRef<HTMLParagraphElement>(null)
   const timelineRef = useRef<gsap.core.Timeline | null>(null)
+  const entryTweenRef = useRef<gsap.core.Tween | null>(null)
   const fallbackRef = useRef<number | null>(null)
   const pendingPathRef = useRef<string | null>(null)
   const transitioningRef = useRef(false)
+  const flowFinishedRef = useRef(false)
+  const entryFinishedRef = useRef(false)
   const mountedRef = useRef(false)
   const revealCleanupRef = useRef<(() => void) | null>(null)
 
@@ -87,6 +90,9 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     transitioningRef.current = false
     pendingPathRef.current = null
     timelineRef.current = null
+    entryTweenRef.current = null
+    flowFinishedRef.current = false
+    entryFinishedRef.current = false
     document.documentElement.classList.remove('is-transitioning')
     const main = document.getElementById('main-content')
     if (main) gsap.set(main, {clearProps: 'opacity,transform'})
@@ -102,6 +108,10 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     focusAndAnnounce()
   }, [clearFallback, focusAndAnnounce, prepareReveals])
 
+  const finishWhenReady = useCallback(() => {
+    if (flowFinishedRef.current && entryFinishedRef.current) finishTransition()
+  }, [finishTransition])
+
   const navigate = useCallback(({href, label, replace = false}: NavigateOptions) => {
     if (transitioningRef.current) return
     const destination = new URL(href, window.location.href)
@@ -111,6 +121,8 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     }
 
     transitioningRef.current = true
+    flowFinishedRef.current = false
+    entryFinishedRef.current = false
     pendingPathRef.current = destination.pathname.replace(/\/$/, '') || '/'
     document.documentElement.classList.add('is-transitioning')
     window.dispatchEvent(new CustomEvent('odessa:page-exit'))
@@ -140,21 +152,31 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     gsap.set(lines, {scaleX: 0})
     gsap.set(diamond, {opacity: 0, rotation: 45, scale: 0.55})
     gsap.set(sun, {opacity: 0, scale: 0})
-    const sunCoverScale = (Math.hypot(window.innerWidth, window.innerHeight) / sun.offsetWidth) * 1.05
 
-    timelineRef.current = gsap.timeline({onComplete: commit})
-      .to(main, {opacity: 0.28, duration: 0.64, ease: 'power3.inOut'}, 0)
-      .to(lines, {scaleX: 1, duration: 0.38, stagger: 0.055, ease: 'power4.inOut'}, 0)
-      .to(diamond, {opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.3)'}, 0.38)
-      .to(sun, {opacity: 1, scale: 1, duration: 0.28, ease: 'back.out(1.5)'}, 0.43)
-      .call(() => { overlay.dataset.transitionState = 'assembled' }, undefined, 0.68)
-      .call(() => { overlay.dataset.transitionState = 'exiting' }, undefined, 0.8)
-      .to(lines, {scaleX: 0, duration: 0.34, stagger: {each: 0.03, from: 'end'}, ease: 'power3.inOut'}, 0.8)
-      .to(diamond, {opacity: 0, scale: 0.7, duration: 0.25, ease: 'power2.in'}, 0.9)
-      .call(() => { overlay.dataset.transitionState = 'covering' }, undefined, 0.98)
-      .to(sun, {scale: sunCoverScale, duration: 0.45, ease: 'power4.inOut'}, 0.98)
-      .call(() => { overlay.dataset.transitionState = 'covered' }, undefined, 1.43)
-  }, [openingAnnouncement, router])
+    const timeline = gsap.timeline({
+      onComplete: () => {
+        flowFinishedRef.current = true
+        overlay.dataset.transitionState = 'flow-complete'
+        finishWhenReady()
+      },
+    })
+      .to(main, {opacity: 0.18, duration: 0.48, ease: 'power3.inOut'}, 0)
+      .to(diamond, {opacity: 1, scale: 1, duration: 0.24, ease: 'power3.out'}, 0.22)
+      .to(sun, {opacity: 1, scale: 1, duration: 0.22, ease: 'power3.out'}, 0.27)
+      .call(() => { overlay.dataset.transitionState = 'flowing' }, undefined, 0.43)
+      .to([diamond, sun], {opacity: 0, scale: 0.82, duration: 0.22, ease: 'power2.inOut'}, 0.54)
+      .call(() => {
+        overlay.dataset.transitionState = 'navigating'
+        commit()
+      }, undefined, 0.57)
+
+    lines.forEach((line, index) => {
+      timeline
+        .to(line, {scaleX: 1, duration: 0.34, ease: 'power3.inOut'}, index * 0.045)
+        .to(line, {scaleX: 0, duration: 0.36, ease: 'power3.inOut'}, 0.43 + (index * 0.045))
+    })
+    timelineRef.current = timeline
+  }, [finishWhenReady, openingAnnouncement, router])
 
   useEffect(() => {
     if (!mountedRef.current) {
@@ -165,32 +187,44 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
 
     clearFallback()
     window.scrollTo({top: 0, left: 0, behavior: 'auto'})
-    timelineRef.current?.kill()
     const main = document.getElementById('main-content')
     const overlay = overlayRef.current
-    const sun = sunRef.current
     const normalizedPath = pathname.replace(/\/$/, '') || '/'
     const expected = transitioningRef.current && pendingPathRef.current === normalizedPath
+
+    if (!expected) {
+      timelineRef.current?.kill()
+      entryTweenRef.current?.kill()
+    }
 
     if (!main || prefersReducedMotion()) {
       finishTransition()
       return
     }
 
-    if (expected && overlay && sun) {
+    if (expected && overlay) {
       overlay.dataset.transitionState = 'revealing'
-      gsap.set(main, {opacity: 0, y: 18})
-      timelineRef.current = gsap.timeline({onComplete: finishTransition})
-        .to(sun, {opacity: 0, duration: 0.37, ease: 'power2.out'}, 0)
-        .to(main, {opacity: 1, y: 0, duration: 0.37, ease: 'power3.out'}, 0)
+      gsap.set(main, {opacity: 0, y: 14})
+      entryTweenRef.current?.kill()
+      entryTweenRef.current = gsap.to(main, {
+        opacity: 1,
+        y: 0,
+        duration: 0.42,
+        ease: 'power3.out',
+        onComplete: () => {
+          entryFinishedRef.current = true
+          finishWhenReady()
+        },
+      })
       return
     }
 
     gsap.fromTo(main, {opacity: 0, y: 18}, {opacity: 1, y: 0, duration: 0.4, ease: 'power3.out', onComplete: finishTransition})
-  }, [clearFallback, finishTransition, pathname, prepareReveals])
+  }, [clearFallback, finishTransition, finishWhenReady, pathname, prepareReveals])
 
   useEffect(() => () => {
     timelineRef.current?.kill()
+    entryTweenRef.current?.kill()
     clearFallback()
     revealCleanupRef.current?.()
     document.documentElement.classList.remove('is-transitioning')
