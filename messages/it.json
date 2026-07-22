@@ -1,0 +1,97 @@
+{
+  "common": {
+    "brand": "ODESSA",
+    "skip": "Vai al contenuto",
+    "primaryNavigation": "Navigazione principale",
+    "mobileNavigation": "Navigazione mobile",
+    "footerNavigation": "Navigazione nel footer",
+    "languageNavigation": "Seleziona lingua",
+    "openMenu": "Apri menu",
+    "closeMenu": "Chiudi menu",
+    "pageOpening": "Apertura pagina: {page}",
+    "pageOpened": "Pagina aperta: {page}",
+    "imagePlaceholder": "IMMAGINE {number}",
+    "imageDescription": "Segnaposto immagine {number}",
+    "videoPlaceholder": "VIDEO {number}",
+    "videoDescription": "Segnaposto video {number}",
+    "playVideo": "Riproduci il video dimostrativo {number}",
+    "demoContent": "Contenuto dimostrativo",
+    "logoPlaceholder": "LOGO {number}",
+    "logoDescription": "Segnaposto logo del partner {number}",
+    "languageIt": "Italiano",
+    "languageEn": "Inglese",
+    "languageUk": "Ucraino"
+  },
+  "navigation": {
+    "home": "Home",
+    "project": "Il progetto",
+    "activities": "Attività",
+    "partners": "Partner",
+    "results": "Risultati",
+    "media": "Media",
+    "contact": "Contatti",
+    "privacy": "Privacy",
+    "cookie": "Cookie Policy"
+  },
+  "actions": {
+    "discoverProject": "Scopri il progetto",
+    "viewActivities": "Esplora le attività",
+    "viewResults": "Guarda i risultati",
+    "viewMedia": "Vai ai media",
+    "contactUs": "Contattaci",
+    "downloadDemo": "Download demo",
+    "unavailable": "File non disponibile in questa fase",
+    "readNews": "Leggi l'anteprima"
+  },
+  "filters": {
+    "label": "Filtra l'archivio media",
+    "all": "Tutti",
+    "news": "News",
+    "photo": "Foto",
+    "video": "Video",
+    "empty": "Nessun contenuto per questo filtro"
+  },
+  "form": {
+    "name": "Nome",
+    "email": "Email",
+    "organization": "Organizzazione",
+    "message": "Messaggio",
+    "consent": "Acconsento al trattamento dimostrativo dei dati secondo la Privacy Policy.",
+    "submit": "Invia messaggio",
+    "submitting": "Invio in corso…",
+    "successTitle": "Messaggio inviato",
+    "successMessage": "Grazie. Questa è una simulazione: nessun dato è stato trasmesso.",
+    "sendAnother": "Invia un altro messaggio",
+    "errors": {
+      "summary": "Controlla i campi evidenziati.",
+      "name": "Inserisci il tuo nome.",
+      "email": "Inserisci un indirizzo email valido.",
+      "message": "Inserisci un messaggio di almeno 10 caratteri.",
+      "consent": "Il consenso è necessario per la simulazione."
+    }
+  },
+  "cookie": {
+    "title": "Preferenze cookie",
+    "text": "Questo prototipo usa soltanto una preferenza locale per ricordare la tua scelta. Nessun analytics è attivo.",
+    "necessary": "Solo necessari",
+    "accept": "Accetta",
+    "regionLabel": "Informativa sulle preferenze cookie"
+  },
+  "footer": {
+    "statement": "Wireframe istituzionale per cooperazione, ricerca e scambio culturale.",
+    "projectLabel": "Progetto",
+    "legalLabel": "Informazioni legali",
+    "copyright": "© 2026 Odessa. Contenuti dimostrativi."
+  },
+  "metadata": {
+    "home": {"title": "Odessa — Cooperazione e scambio", "description": "Wireframe dimostrativo del progetto Odessa."},
+    "project": {"title": "Il progetto — Odessa", "description": "Contesto, obiettivi e metodologia del progetto Odessa."},
+    "activities": {"title": "Attività — Odessa", "description": "Le attività dimostrative del progetto Odessa."},
+    "partners": {"title": "Partner — Odessa", "description": "La rete di partner del progetto Odessa."},
+    "results": {"title": "Risultati — Odessa", "description": "Indicatori, risultati e risorse dimostrative."},
+    "media": {"title": "Media — Odessa", "description": "News, video e galleria del progetto Odessa."},
+    "contact": {"title": "Contatti — Odessa", "description": "Recapiti e form dimostrativo del progetto Odessa."},
+    "privacy": {"title": "Privacy — Odessa", "description": "Informativa privacy dimostrativa da sostituire."},
+    "cookie": {"title": "Cookie Policy — Odessa", "description": "Cookie Policy dimostrativa da sostituire."}
+  }
+}

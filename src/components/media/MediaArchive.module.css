@@ -1,0 +1,63 @@
+.filters {
+  border-bottom: var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+}
+
+.filters button {
+  background: transparent;
+  border: var(--border);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+  text-transform: uppercase;
+}
+
+.filters button[aria-pressed="true"] {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.archive {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.featured {
+  grid-column: 1 / -1;
+}
+
+.featured h3,
+.featured p {
+  margin: 0;
+}
+
+.featuredCopy {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.empty {
+  border: var(--border);
+  grid-column: 1 / -1;
+  padding: var(--space-5);
+}
+
+@media (min-width: 48rem) {
+  .archive {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 72rem) {
+  .archive {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

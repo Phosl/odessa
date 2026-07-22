@@ -1,0 +1,97 @@
+{
+  "common": {
+    "brand": "ODESSA",
+    "skip": "Перейти до вмісту",
+    "primaryNavigation": "Основна навігація",
+    "mobileNavigation": "Мобільна навігація",
+    "footerNavigation": "Навігація в нижньому колонтитулі",
+    "languageNavigation": "Виберіть мову",
+    "openMenu": "Відкрити меню",
+    "closeMenu": "Закрити меню",
+    "pageOpening": "Відкриваємо сторінку: {page}",
+    "pageOpened": "Відкрито сторінку: {page}",
+    "imagePlaceholder": "ЗОБРАЖЕННЯ {number}",
+    "imageDescription": "Заповнювач зображення {number}",
+    "videoPlaceholder": "ВІДЕО {number}",
+    "videoDescription": "Заповнювач відео {number}",
+    "playVideo": "Відтворити демонстраційне відео {number}",
+    "demoContent": "Демонстраційний вміст",
+    "logoPlaceholder": "ЛОГО {number}",
+    "logoDescription": "Заповнювач логотипа партнера {number}",
+    "languageIt": "Італійська",
+    "languageEn": "Англійська",
+    "languageUk": "Українська"
+  },
+  "navigation": {
+    "home": "Головна",
+    "project": "Про проєкт",
+    "activities": "Діяльність",
+    "partners": "Партнери",
+    "results": "Результати",
+    "media": "Медіа",
+    "contact": "Контакти",
+    "privacy": "Конфіденційність",
+    "cookie": "Політика cookie"
+  },
+  "actions": {
+    "discoverProject": "Дізнатися про проєкт",
+    "viewActivities": "Переглянути діяльність",
+    "viewResults": "Переглянути результати",
+    "viewMedia": "Перейти до медіа",
+    "contactUs": "Зв'язатися з нами",
+    "downloadDemo": "Демо-завантаження",
+    "unavailable": "Файл недоступний на цьому етапі",
+    "readNews": "Читати анонс"
+  },
+  "filters": {
+    "label": "Фільтрувати медіаархів",
+    "all": "Усі",
+    "news": "Новини",
+    "photo": "Фото",
+    "video": "Відео",
+    "empty": "Для цього фільтра немає матеріалів"
+  },
+  "form": {
+    "name": "Ім'я",
+    "email": "Електронна пошта",
+    "organization": "Організація",
+    "message": "Повідомлення",
+    "consent": "Я погоджуюся на демонстраційну обробку даних відповідно до Політики конфіденційності.",
+    "submit": "Надіслати повідомлення",
+    "submitting": "Надсилання…",
+    "successTitle": "Повідомлення надіслано",
+    "successMessage": "Дякуємо. Це симуляція: жодних даних не було передано.",
+    "sendAnother": "Надіслати інше повідомлення",
+    "errors": {
+      "summary": "Перевірте виділені поля.",
+      "name": "Введіть ваше ім'я.",
+      "email": "Введіть дійсну електронну адресу.",
+      "message": "Введіть повідомлення щонайменше з 10 символів.",
+      "consent": "Для симуляції потрібна згода."
+    }
+  },
+  "cookie": {
+    "title": "Налаштування cookie",
+    "text": "Цей прототип використовує лише локальне налаштування, щоб запам'ятати ваш вибір. Аналітика не активна.",
+    "necessary": "Лише необхідні",
+    "accept": "Прийняти",
+    "regionLabel": "Повідомлення про налаштування cookie"
+  },
+  "footer": {
+    "statement": "Інституційний каркас для співпраці, досліджень і культурного обміну.",
+    "projectLabel": "Проєкт",
+    "legalLabel": "Правова інформація",
+    "copyright": "© 2026 Odessa. Демонстраційний вміст."
+  },
+  "metadata": {
+    "home": {"title": "Odessa — Співпраця та обмін", "description": "Демонстраційний каркас проєкту Odessa."},
+    "project": {"title": "Про проєкт — Odessa", "description": "Контекст, цілі та методологія проєкту Odessa."},
+    "activities": {"title": "Діяльність — Odessa", "description": "Демонстраційні активності проєкту Odessa."},
+    "partners": {"title": "Партнери — Odessa", "description": "Партнерська мережа проєкту Odessa."},
+    "results": {"title": "Результати — Odessa", "description": "Демонстраційні показники, результати й ресурси."},
+    "media": {"title": "Медіа — Odessa", "description": "Новини, відео та галерея проєкту Odessa."},
+    "contact": {"title": "Контакти — Odessa", "description": "Контактні дані та демонстраційна форма Odessa."},
+    "privacy": {"title": "Конфіденційність — Odessa", "description": "Демонстраційне повідомлення про конфіденційність, яке слід замінити."},
+    "cookie": {"title": "Політика cookie — Odessa", "description": "Демонстраційна політика cookie, яку слід замінити."}
+  }
+}

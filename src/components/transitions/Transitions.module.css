@@ -1,0 +1,74 @@
+.root {
+  min-height: 100svh;
+}
+
+.overlay {
+  display: none;
+  isolation: isolate;
+  grid-template-columns: 1fr;
+  inset: 0;
+  overflow: hidden;
+  place-items: center;
+  pointer-events: none;
+  position: fixed;
+  z-index: 900;
+}
+
+.lines {
+  display: grid;
+  grid-area: 1 / 1;
+  grid-template-rows: repeat(6, 1fr);
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.line {
+  background: var(--color-paper);
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.line[data-direction="ltr"] {
+  transform-origin: left center;
+}
+
+.line[data-direction="rtl"] {
+  transform-origin: right center;
+}
+
+.stripe {
+  background: var(--brand-blue);
+  inset: 12% 0;
+  position: absolute;
+}
+
+.diamond,
+.sun {
+  display: block;
+  grid-area: 1 / 1;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.diamond {
+  aspect-ratio: 1;
+  background: var(--color-paper);
+  transform: rotate(45deg) scale(0);
+  width: clamp(10rem, 34vmin, 28rem);
+  z-index: 2;
+}
+
+.sun {
+  aspect-ratio: 1;
+  background: var(--brand-yellow);
+  border-radius: 50%;
+  transform: scale(0);
+  width: clamp(4.5rem, 12vmin, 9rem);
+  z-index: 3;
+}

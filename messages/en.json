@@ -1,0 +1,97 @@
+{
+  "common": {
+    "brand": "ODESSA",
+    "skip": "Skip to content",
+    "primaryNavigation": "Primary navigation",
+    "mobileNavigation": "Mobile navigation",
+    "footerNavigation": "Footer navigation",
+    "languageNavigation": "Select language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "pageOpening": "Opening page: {page}",
+    "pageOpened": "Page opened: {page}",
+    "imagePlaceholder": "IMAGE {number}",
+    "imageDescription": "Image placeholder {number}",
+    "videoPlaceholder": "VIDEO {number}",
+    "videoDescription": "Video placeholder {number}",
+    "playVideo": "Play demonstration video {number}",
+    "demoContent": "Demonstration content",
+    "logoPlaceholder": "LOGO {number}",
+    "logoDescription": "Partner logo placeholder {number}",
+    "languageIt": "Italian",
+    "languageEn": "English",
+    "languageUk": "Ukrainian"
+  },
+  "navigation": {
+    "home": "Home",
+    "project": "The project",
+    "activities": "Activities",
+    "partners": "Partners",
+    "results": "Results",
+    "media": "Media",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "cookie": "Cookie Policy"
+  },
+  "actions": {
+    "discoverProject": "Discover the project",
+    "viewActivities": "Explore activities",
+    "viewResults": "View results",
+    "viewMedia": "Go to media",
+    "contactUs": "Contact us",
+    "downloadDemo": "Demo download",
+    "unavailable": "File unavailable at this stage",
+    "readNews": "Read preview"
+  },
+  "filters": {
+    "label": "Filter the media archive",
+    "all": "All",
+    "news": "News",
+    "photo": "Photos",
+    "video": "Video",
+    "empty": "No content matches this filter"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "organization": "Organization",
+    "message": "Message",
+    "consent": "I consent to the demonstration processing of data under the Privacy Policy.",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Message sent",
+    "successMessage": "Thank you. This is a simulation: no data has been transmitted.",
+    "sendAnother": "Send another message",
+    "errors": {
+      "summary": "Please review the highlighted fields.",
+      "name": "Enter your name.",
+      "email": "Enter a valid email address.",
+      "message": "Enter a message of at least 10 characters.",
+      "consent": "Consent is required for the simulation."
+    }
+  },
+  "cookie": {
+    "title": "Cookie preferences",
+    "text": "This prototype only uses a local preference to remember your choice. No analytics is active.",
+    "necessary": "Necessary only",
+    "accept": "Accept",
+    "regionLabel": "Cookie preference notice"
+  },
+  "footer": {
+    "statement": "An institutional wireframe for cooperation, research and cultural exchange.",
+    "projectLabel": "Project",
+    "legalLabel": "Legal information",
+    "copyright": "© 2026 Odessa. Demonstration content."
+  },
+  "metadata": {
+    "home": {"title": "Odessa — Cooperation and exchange", "description": "Demonstration wireframe for the Odessa project."},
+    "project": {"title": "The project — Odessa", "description": "Context, goals and methodology of the Odessa project."},
+    "activities": {"title": "Activities — Odessa", "description": "Demonstration activities for the Odessa project."},
+    "partners": {"title": "Partners — Odessa", "description": "The Odessa project partner network."},
+    "results": {"title": "Results — Odessa", "description": "Demonstration indicators, results and resources."},
+    "media": {"title": "Media — Odessa", "description": "News, video and gallery from the Odessa project."},
+    "contact": {"title": "Contact — Odessa", "description": "Contact details and demonstration form for Odessa."},
+    "privacy": {"title": "Privacy — Odessa", "description": "Demonstration privacy notice to be replaced."},
+    "cookie": {"title": "Cookie Policy — Odessa", "description": "Demonstration Cookie Policy to be replaced."}
+  }
+}
