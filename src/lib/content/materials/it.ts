@@ -6,7 +6,7 @@ const materials = {
     title: 'Quattro direzioni, un linguaggio condiviso.',
     intro: 'Le proposte vengono ordinate per rendere confrontabili segno, colore, sistema grafico e voce del progetto prima della scelta finale.',
   },
-  indexLabel: 'Indice dei materiali di identità',
+  tabsLabel: 'Seleziona una proposta di identità',
   logos: {
     title: 'Ipotesi di logo',
     intro: 'Quattro concept esplorano il rapporto tra patrimonio, cooperazione, territorio e opportunità. Ogni proposta conserva un carattere istituzionale, ma sviluppa una metafora diversa.',

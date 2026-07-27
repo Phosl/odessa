@@ -6,7 +6,7 @@ const materials = {
     title: 'Four directions, one shared language.',
     intro: 'The proposals are organized to make mark, colour, graphic system and project voice easy to compare before a final direction is selected.',
   },
-  indexLabel: 'Identity materials index',
+  tabsLabel: 'Select an identity proposal',
   logos: {
     title: 'Logo concepts',
     intro: 'Four concepts explore the relationship between heritage, cooperation, place and opportunity. Each retains an institutional character while developing a distinct metaphor.',

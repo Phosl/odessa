@@ -80,7 +80,7 @@ export type MaterialConcept = {
 
 export type MaterialsContent = {
   lead: PageLead
-  indexLabel: string
+  tabsLabel: string
   logos: {title: string; intro: string}
   colors: {title: string; intro: string; note: string}
   elements: {title: string; intro: string}

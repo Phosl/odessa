@@ -104,14 +104,25 @@ test('filters local media content', async ({page}) => {
   await expect(page.locator('[role="img"]').filter({hasText: /IMAGE/})).toHaveCount(0)
 })
 
-test('organizes identity materials into four distinct sections', async ({page}) => {
+test('organizes each identity proposal in an accessible tab', async ({page}) => {
   await page.goto('/it/materiali')
-  await expect(page.getByRole('heading', {name: 'Ipotesi di logo'})).toBeVisible()
-  await expect(page.getByRole('heading', {name: 'Palette e ipotesi di colore'})).toBeVisible()
-  await expect(page.getByRole('heading', {name: 'Elementi grafici e icone'})).toBeVisible()
-  await expect(page.getByRole('heading', {name: 'Claim e linee di tono'})).toBeVisible()
-  await expect(page.locator('#logo-concepts img')).toHaveCount(4)
-  await expect(page.locator('#graphic-elements img')).toHaveCount(4)
+  const tabs = page.getByRole('tab')
+  const panel = page.getByRole('tabpanel')
+  await expect(tabs).toHaveCount(4)
+  await expect(tabs.first()).toHaveAttribute('aria-selected', 'true')
+  await expect(panel.getByRole('heading', {name: 'Stratigrafie e colori ucraini'})).toBeVisible()
+  await expect(panel.getByRole('heading', {name: 'Palette e ipotesi di colore'})).toBeVisible()
+  await expect(panel.getByRole('heading', {name: 'Elementi grafici e icone'})).toBeVisible()
+  await expect(panel.getByRole('heading', {name: 'Claim e linee di tono'})).toBeVisible()
+  await expect(panel.locator('img')).toHaveCount(2)
+
+  const secondTab = page.getByRole('tab', {name: /La O come arco/})
+  await secondTab.click()
+  await expect(secondTab).toHaveAttribute('aria-selected', 'true')
+  await expect(panel.getByRole('heading', {name: 'La O come arco, il mare come contesto'})).toBeVisible()
+  await secondTab.press('ArrowRight')
+  await expect(page.getByRole('tab', {name: /La O come percorso/})).toBeFocused()
+  await expect(page.getByRole('tab', {name: /La O come percorso/})).toHaveAttribute('aria-selected', 'true')
   await expect(page.locator('a[href$="odessa-identita-proposte.pdf"]')).toHaveAttribute('target', '_blank')
 })
 
