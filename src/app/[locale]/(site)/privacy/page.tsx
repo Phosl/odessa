@@ -13,7 +13,7 @@ export default async function PrivacyPage({params}: {params: LocaleParams}) {
   const page = (await getSiteContent(locale)).privacy
   return (
     <PageMain>
-      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="07 / 08" /><p className="legal-notice" data-reveal>{page.notice}</p></div></section>
+      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="08 / 09" /><p className="legal-notice" data-reveal>{page.notice}</p></div></section>
       {page.sections.map((section) => <EditorialSection content={section} key={section.title} />)}
     </PageMain>
   )

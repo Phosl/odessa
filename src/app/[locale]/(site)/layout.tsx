@@ -7,7 +7,7 @@ import {SiteHeader} from '@/components/layout/SiteHeader'
 import {SiteFooter} from '@/components/layout/SiteFooter'
 import {CookieBanner} from '@/components/layout/CookieBanner'
 
-const mainRoutes: RouteKey[] = ['home', 'project', 'activities', 'partners', 'results', 'media', 'contact']
+const mainRoutes: RouteKey[] = ['home', 'project', 'activities', 'partners', 'results', 'media', 'materials', 'contact']
 const legalRoutes: RouteKey[] = ['privacy', 'cookie']
 
 export default async function SiteLayout({children, params}: {children: ReactNode; params: LocaleParams}) {

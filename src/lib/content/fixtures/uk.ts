@@ -1,4 +1,5 @@
 import type {SiteContent} from '../types'
+import materials from '../materials/uk'
 
 const content = {
   home: {
@@ -95,6 +96,7 @@ const content = {
       {id: 'photo-08', label: 'Деталь прототипу', ratio: 'portrait'},
     ],
   },
+  materials,
   contact: {
     lead: {eyebrow: 'Контакти', title: 'Починаємо нові розмови.', intro: 'Скористайтеся демонстраційними контактами або формою, щоб запитати про діяльність і можливості співпраці.'},
     detailsTitle: 'Контакти проєкту',

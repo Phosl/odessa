@@ -10,6 +10,7 @@ const routeTable = {
   partners: {internal: '/partners', paths: {it: '/partner', en: '/partners', uk: '/partners'}},
   results: {internal: '/results', paths: {it: '/risultati', en: '/results', uk: '/results'}},
   media: {internal: '/media', paths: {it: '/media', en: '/media', uk: '/media'}},
+  materials: {internal: '/materials', paths: {it: '/materiali', en: '/materials', uk: '/materials'}},
   contact: {internal: '/contact', paths: {it: '/contatti', en: '/contact', uk: '/contact'}},
   privacy: {internal: '/privacy', paths: {it: '/privacy', en: '/privacy', uk: '/privacy'}},
   cookie: {internal: '/cookie-policy', paths: {it: '/cookie-policy', en: '/cookie-policy', uk: '/cookie-policy'}},

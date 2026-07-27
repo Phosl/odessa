@@ -69,6 +69,14 @@ textarea {
   font: inherit;
 }
 
+img,
+picture,
+video,
+canvas,
+svg {
+  max-inline-size: 100%;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;

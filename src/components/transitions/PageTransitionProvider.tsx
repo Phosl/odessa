@@ -33,6 +33,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
   const pathname = usePathname()
   const router = useRouter()
   const overlayRef = useRef<HTMLDivElement>(null)
+  const veilRef = useRef<HTMLSpanElement>(null)
   const diamondRef = useRef<HTMLSpanElement>(null)
   const sunRef = useRef<HTMLSpanElement>(null)
   const liveRef = useRef<HTMLParagraphElement>(null)
@@ -102,6 +103,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
       gsap.set(overlayRef.current, {display: 'none'})
       overlayRef.current.dataset.transitionState = 'idle'
     }
+    if (veilRef.current) gsap.set(veilRef.current, {opacity: 0})
     if (diamondRef.current) gsap.set(diamondRef.current, {opacity: 0, rotation: 45, scale: 0})
     if (sunRef.current) gsap.set(sunRef.current, {opacity: 0, scale: 0})
     prepareReveals()
@@ -138,10 +140,11 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
 
     const main = document.getElementById('main-content')
     const overlay = overlayRef.current
+    const veil = veilRef.current
     const diamond = diamondRef.current
     const sun = sunRef.current
     const lines = overlay?.querySelectorAll<HTMLElement>('[data-transition-line]')
-    if (prefersReducedMotion() || !main || !overlay || !diamond || !sun || !lines?.length) {
+    if (prefersReducedMotion() || !main || !overlay || !veil || !diamond || !sun || !lines?.length) {
       commit()
       return
     }
@@ -149,8 +152,9 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     timelineRef.current?.kill()
     overlay.dataset.transitionState = 'building'
     gsap.set(overlay, {display: 'grid'})
+    gsap.set(veil, {opacity: 0})
     gsap.set(lines, {scaleX: 0})
-    gsap.set(diamond, {opacity: 0, rotation: 45, scale: 0.55})
+    gsap.set(diamond, {opacity: 0, rotation: 45, scale: 0.82})
     gsap.set(sun, {opacity: 0, scale: 0})
 
     const timeline = gsap.timeline({
@@ -160,20 +164,22 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
         finishWhenReady()
       },
     })
-      .to(main, {opacity: 0.18, duration: 0.48, ease: 'power3.inOut'}, 0)
-      .to(diamond, {opacity: 1, scale: 1, duration: 0.24, ease: 'power3.out'}, 0.22)
-      .to(sun, {opacity: 1, scale: 1, duration: 0.22, ease: 'power3.out'}, 0.27)
-      .call(() => { overlay.dataset.transitionState = 'flowing' }, undefined, 0.43)
-      .to([diamond, sun], {opacity: 0, scale: 0.82, duration: 0.22, ease: 'power2.inOut'}, 0.54)
+      .to(main, {opacity: 0.08, y: -6, duration: 0.62, ease: 'power4.inOut'}, 0)
+      .to(veil, {opacity: 0.96, duration: 0.54, ease: 'power3.inOut'}, 0)
+      .to(diamond, {opacity: 1, scale: 1, duration: 0.38, ease: 'power3.out'}, 0.24)
+      .to(sun, {opacity: 1, scale: 1, duration: 0.32, ease: 'back.out(1.25)'}, 0.3)
+      .call(() => { overlay.dataset.transitionState = 'flowing' }, undefined, 0.5)
       .call(() => {
         overlay.dataset.transitionState = 'navigating'
         commit()
-      }, undefined, 0.57)
+      }, undefined, 0.68)
+      .to([diamond, sun], {opacity: 0, scale: 0.9, duration: 0.3, ease: 'power2.inOut'}, 0.74)
+      .to(veil, {opacity: 0, duration: 0.56, ease: 'power3.inOut'}, 0.78)
 
     lines.forEach((line, index) => {
       timeline
-        .to(line, {scaleX: 1, duration: 0.34, ease: 'power3.inOut'}, index * 0.045)
-        .to(line, {scaleX: 0, duration: 0.36, ease: 'power3.inOut'}, 0.43 + (index * 0.045))
+        .to(line, {scaleX: 1, duration: 0.5, ease: 'power4.inOut'}, index * 0.055)
+        .to(line, {scaleX: 0, duration: 0.52, ease: 'power4.inOut'}, 0.62 + (index * 0.055))
     })
     timelineRef.current = timeline
   }, [finishWhenReady, openingAnnouncement, router])
@@ -236,6 +242,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
         {children}
         <p className="sr-only" aria-live="polite" aria-atomic="true" ref={liveRef} />
         <div aria-hidden="true" className={styles.overlay} data-testid="transition-overlay" data-transition-state="idle" ref={overlayRef}>
+          <span className={styles.veil} data-transition-veil ref={veilRef} />
           <div className={styles.lines}>
             {Array.from({length: LINE_COUNT}, (_, index) => (
               <span className={styles.line} data-direction={index % 2 === 0 ? 'ltr' : 'rtl'} data-transition-line key={index}>

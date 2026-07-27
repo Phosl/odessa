@@ -29,6 +29,7 @@
     "partners": "Partner",
     "results": "Risultati",
     "media": "Media",
+    "materials": "Materiali",
     "contact": "Contatti",
     "privacy": "Privacy",
     "cookie": "Cookie Policy"
@@ -90,6 +91,7 @@
     "partners": {"title": "Partner — Odessa", "description": "La rete di partner del progetto Odessa."},
     "results": {"title": "Risultati — Odessa", "description": "Indicatori, risultati e risorse dimostrative."},
     "media": {"title": "Media — Odessa", "description": "News, video e galleria del progetto Odessa."},
+    "materials": {"title": "Materiali di identità — Odessa", "description": "Logo, palette, elementi grafici, claim e linee di tono per Odessa."},
     "contact": {"title": "Contatti — Odessa", "description": "Recapiti e form dimostrativo del progetto Odessa."},
     "privacy": {"title": "Privacy — Odessa", "description": "Informativa privacy dimostrativa da sostituire."},
     "cookie": {"title": "Cookie Policy — Odessa", "description": "Cookie Policy dimostrativa da sostituire."}

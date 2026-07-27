@@ -29,6 +29,7 @@
     "partners": "Партнери",
     "results": "Результати",
     "media": "Медіа",
+    "materials": "Матеріали",
     "contact": "Контакти",
     "privacy": "Конфіденційність",
     "cookie": "Політика cookie"
@@ -90,6 +91,7 @@
     "partners": {"title": "Партнери — Odessa", "description": "Партнерська мережа проєкту Odessa."},
     "results": {"title": "Результати — Odessa", "description": "Демонстраційні показники, результати й ресурси."},
     "media": {"title": "Медіа — Odessa", "description": "Новини, відео та галерея проєкту Odessa."},
+    "materials": {"title": "Матеріали айдентики — Odessa", "description": "Концепції логотипа, палітри, графічні елементи, слогани й тон комунікації Odessa."},
     "contact": {"title": "Контакти — Odessa", "description": "Контактні дані та демонстраційна форма Odessa."},
     "privacy": {"title": "Конфіденційність — Odessa", "description": "Демонстраційне повідомлення про конфіденційність, яке слід замінити."},
     "cookie": {"title": "Політика cookie — Odessa", "description": "Демонстраційна політика cookie, яку слід замінити."}

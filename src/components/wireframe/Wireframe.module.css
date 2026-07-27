@@ -84,9 +84,12 @@
   color: var(--color-muted);
   display: flex;
   justify-content: center;
-  min-height: 15rem;
+  max-inline-size: 100%;
+  min-height: 0;
+  min-width: 0;
   overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .placeholder::before,
@@ -184,10 +187,6 @@
 }
 
 @media (min-width: 48rem) {
-  .placeholder {
-    min-height: 0;
-  }
-
   .introBottom,
   .sectionHeading,
   .editorial {

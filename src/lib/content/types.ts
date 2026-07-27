@@ -60,6 +60,41 @@ export type GalleryItem = {
   ratio: 'landscape' | 'portrait' | 'square'
 }
 
+export type MaterialColor = {
+  name: string
+  hex: string
+}
+
+export type MaterialConcept = {
+  id: string
+  number: string
+  title: string
+  description: string
+  elementDescription: string
+  image: {src: string; alt: string; width: number; height: number}
+  mark: {src: string; alt: string; width: number; height: number}
+  typography: string[]
+  palette: MaterialColor[]
+  claims: string[]
+}
+
+export type MaterialsContent = {
+  lead: PageLead
+  indexLabel: string
+  logos: {title: string; intro: string}
+  colors: {title: string; intro: string; note: string}
+  elements: {title: string; intro: string}
+  voice: {
+    title: string
+    intro: string
+    principlesTitle: string
+    principles: string[]
+  }
+  typographyLabel: string
+  source: {label: string; meta: string; note: string}
+  concepts: MaterialConcept[]
+}
+
 export type SiteContent = {
   home: {
     lead: PageLead
@@ -109,6 +144,7 @@ export type SiteContent = {
     news: NewsItem[]
     gallery: GalleryItem[]
   }
+  materials: MaterialsContent
   contact: {
     lead: PageLead
     detailsTitle: string

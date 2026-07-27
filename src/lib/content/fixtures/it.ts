@@ -1,4 +1,5 @@
 import type {SiteContent} from '../types'
+import materials from '../materials/it'
 
 const content = {
   home: {
@@ -175,6 +176,7 @@ const content = {
       {id: 'photo-08', label: 'Dettaglio di un prototipo', ratio: 'portrait'},
     ],
   },
+  materials,
   contact: {
     lead: {
       eyebrow: 'Contatti',
