@@ -115,6 +115,10 @@
   aspect-ratio: 16 / 9;
 }
 
+.cinematic {
+  aspect-ratio: 4 / 3;
+}
+
 .portrait {
   aspect-ratio: 3 / 4;
 }
@@ -156,6 +160,50 @@
   width: 1.1rem;
 }
 
+.photo {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  max-inline-size: 100%;
+  min-width: 0;
+}
+
+.photoFrame {
+  background: var(--color-soft);
+  border: var(--border);
+  max-inline-size: 100%;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.photoFrame img {
+  filter: saturate(0.88) contrast(1.02);
+  object-fit: cover;
+  transition: filter 600ms ease, transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.photo:hover .photoFrame img {
+  filter: saturate(1) contrast(1);
+  transform: scale(1.015);
+}
+
+.photoCaption {
+  color: var(--color-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  gap: 0.35rem;
+  line-height: 1.4;
+}
+
+.photoCaption a {
+  color: inherit;
+  text-underline-offset: 0.18em;
+}
+
 .timeline {
   border-top: var(--border);
   display: grid;
@@ -187,15 +235,27 @@
 }
 
 @media (min-width: 48rem) {
+  .cinematic {
+    aspect-ratio: 16 / 7;
+  }
+
   .introBottom,
   .sectionHeading,
   .editorial {
     grid-template-columns: minmax(12rem, 0.75fr) minmax(0, 1.25fr);
   }
 
-  .introBottom > :first-child,
+  .introBottom > :first-child {
+    grid-column: 2;
+  }
+
   .sectionHeading > :first-child,
   .editorial > :first-child {
+    grid-column: 1;
+  }
+
+  .sectionHeading > :nth-child(2),
+  .editorialBody {
     grid-column: 2;
   }
 
@@ -206,5 +266,15 @@
 
   .timelineItem {
     grid-template-columns: minmax(8rem, 0.45fr) minmax(10rem, 0.75fr) minmax(0, 1.2fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photoFrame img {
+    transition: none;
+  }
+
+  .photo:hover .photoFrame img {
+    transform: none;
   }
 }

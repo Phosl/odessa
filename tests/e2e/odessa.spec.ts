@@ -72,6 +72,28 @@ test('stays overflow-free and captures the target viewports', async ({page}, tes
   }
 })
 
+test('renders licensed contextual photography and keeps editorial titles on the left', async ({page}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Desktop grid placement is covered once')
+  await page.setViewportSize({width: 1440, height: 1000})
+  await page.goto('/it')
+
+  const hero = page.getByAltText('Il Teatro Nazionale dell’Opera e del Balletto di Odessa visto dalla piazza')
+  await expect(hero).toBeVisible()
+  expect(await hero.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBeTruthy()
+
+  const heroFigure = hero.locator('xpath=ancestor::figure')
+  await expect(heroFigure.locator('a[href*="commons.wikimedia.org"]')).toHaveCount(1)
+  await expect(heroFigure.locator('a[href*="creativecommons.org"]')).toHaveCount(1)
+
+  const title = page.getByRole('heading', {name: 'Attività che collegano persone e competenze'})
+  const intro = page.getByText('Sei azioni coordinate accompagnano il progetto dalla ricerca iniziale alla condivisione pubblica dei risultati.')
+  await title.scrollIntoViewIfNeeded()
+  const [titleBox, introBox] = await Promise.all([title.boundingBox(), intro.boundingBox()])
+  expect(titleBox).not.toBeNull()
+  expect(introBox).not.toBeNull()
+  expect(titleBox!.x).toBeLessThan(introBox!.x)
+})
+
 test('redirects the root path to Italian', async ({page}) => {
   await page.goto('/')
   await expect(page).toHaveURL(/\/it$/)

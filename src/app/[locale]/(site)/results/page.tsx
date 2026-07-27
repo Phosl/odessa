@@ -5,7 +5,7 @@ import {getRouteHref} from '@/i18n/routing'
 import {getSiteContent} from '@/lib/content/repository'
 import {createPageMetadata} from '@/lib/metadata'
 import {ResourceCard, ResultStat} from '@/components/sections/Cards'
-import {Cta, CtaSection, EditorialSection, ImagePlaceholder, PageIntro, PageMain, SectionHeading} from '@/components/wireframe/Wireframe'
+import {Cta, CtaSection, EditorialPhoto, EditorialSection, PageIntro, PageMain, SectionHeading} from '@/components/wireframe/Wireframe'
 
 export async function generateMetadata({params}: {params: LocaleParams}): Promise<Metadata> {
   return createPageMetadata(await getPageLocale(params), 'results')
@@ -26,7 +26,7 @@ export default async function ResultsPage({params}: {params: LocaleParams}) {
           <div className="grid-3">{page.resources.map((resource) => <ResourceCard action={t('actions.downloadDemo')} key={resource.id} resource={resource} unavailable={t('actions.unavailable')} />)}</div>
         </div>
       </section>
-      <section className="section"><div className="container"><SectionHeading intro={page.media.paragraphs[0]} title={page.media.title} /><div data-reveal><ImagePlaceholder description={page.media.mediaLabel} label={t('common.imagePlaceholder', {number: '01'})} /></div></div></section>
+      <section className="section"><div className="container"><SectionHeading intro={page.media.paragraphs[0]} title={page.media.title} /><div data-reveal><EditorialPhoto image={page.media.image} ratio="cinematic" /></div></div></section>
       <CtaSection text={content.media.lead.intro} title={content.media.lead.title}><Cta destinationLabel={t('navigation.media')} href={getRouteHref('media', locale)} label={t('actions.viewMedia')} /></CtaSection>
     </PageMain>
   )

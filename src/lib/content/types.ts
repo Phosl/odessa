@@ -16,6 +16,18 @@ export type TimelineItem = {
   text: string
 }
 
+export type EditorialImage = {
+  src: string
+  alt: string
+  width: number
+  height: number
+  author: string
+  sourceUrl: string
+  license: string
+  licenseUrl: string
+  objectPosition?: string
+}
+
 export type Activity = {
   id: string
   number: string
@@ -98,12 +110,12 @@ export type MaterialsContent = {
 export type SiteContent = {
   home: {
     lead: PageLead
-    videoLabel: string
-    project: TextSection & {imageLabel: string}
+    heroImage: EditorialImage
+    project: TextSection & {image: EditorialImage}
     activities: TextSection
     results: TextSection
     partners: TextSection
-    media: TextSection & {imageLabel: string}
+    media: TextSection & {image: EditorialImage}
     contact: TextSection
   }
   project: {
@@ -114,7 +126,7 @@ export type SiteContent = {
     audiences: TextSection
     timelineTitle: string
     timeline: TimelineItem[]
-    imageLabel: string
+    image: EditorialImage
   }
   activities: {
     lead: PageLead
@@ -134,7 +146,7 @@ export type SiteContent = {
     resourcesTitle: string
     resourcesIntro: string
     resources: Resource[]
-    media: TextSection & {mediaLabel: string}
+    media: TextSection & {image: EditorialImage}
   }
   media: {
     lead: PageLead

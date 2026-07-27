@@ -1,5 +1,6 @@
+import Image from 'next/image'
 import type {ReactNode} from 'react'
-import type {TimelineItem as TimelineItemData, TextSection} from '@/lib/content/types'
+import type {EditorialImage, TimelineItem as TimelineItemData, TextSection} from '@/lib/content/types'
 import {TransitionLink} from '@/components/transitions/TransitionLink'
 import styles from './Wireframe.module.css'
 
@@ -65,6 +66,38 @@ export function VideoPlaceholder({label, description}: {label: string; descripti
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor" /></svg>
       </span>
     </div>
+  )
+}
+
+export function EditorialPhoto({
+  image,
+  priority = false,
+  ratio = 'landscape',
+  sizes = '(min-width: 80rem) 75rem, calc(100vw - 2rem)',
+}: {
+  image: EditorialImage
+  priority?: boolean
+  ratio?: 'landscape' | 'cinematic' | 'portrait' | 'square'
+  sizes?: string
+}) {
+  return (
+    <figure className={styles.photo}>
+      <div className={`${styles.photoFrame} ${styles[ratio]}`}>
+        <Image
+          alt={image.alt}
+          fill
+          priority={priority}
+          sizes={sizes}
+          src={image.src}
+          style={{objectPosition: image.objectPosition}}
+        />
+      </div>
+      <figcaption className={styles.photoCaption}>
+        <a href={image.sourceUrl} rel="noreferrer" target="_blank">{image.author}</a>
+        <span aria-hidden="true"> · </span>
+        <a href={image.licenseUrl} rel="noreferrer" target="_blank">{image.license}</a>
+      </figcaption>
+    </figure>
   )
 }
 

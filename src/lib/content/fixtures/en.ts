@@ -1,15 +1,16 @@
 import type {SiteContent} from '../types'
+import {editorialImages, withLocalizedAlt} from '../editorial-images'
 import materials from '../materials/en'
 
 const content = {
   home: {
     lead: {eyebrow: 'International cooperation · 2026–2028', title: 'Different distances, common ground.', intro: 'Odessa is a demonstration project connecting communities, institutions and young professionals in Italy and Ukraine.'},
-    videoLabel: 'Introduction to the Odessa project',
-    project: {title: 'A platform for lasting relationships', paragraphs: ['The project combines field research, training and cultural production to turn exchange into shared tools.'], imageLabel: 'Map of the communities involved'},
+    heroImage: withLocalizedAlt(editorialImages.opera, 'The Odesa National Opera and Ballet Theatre seen from the square'),
+    project: {title: 'A platform for lasting relationships', paragraphs: ['The project combines field research, training and cultural production to turn exchange into shared tools.'], image: withLocalizedAlt(editorialImages.coast, 'Waves on the Black Sea coast in Odesa')},
     activities: {title: 'Activities connecting people and skills', paragraphs: ['Six coordinated actions take the project from early research to the public sharing of results.']},
     results: {title: 'Readable, verifiable impact', paragraphs: ['Simple indicators describe participation, collaborations and materials produced throughout the programme.']},
     partners: {title: 'A multidisciplinary network', paragraphs: ['Public bodies, universities and civic organizations contribute complementary perspectives.']},
-    media: {title: 'The project as it unfolds', paragraphs: ['News, images and videos document meetings, workshops and public presentations.'], imageLabel: 'Media archive preview'},
+    media: {title: 'The project as it unfolds', paragraphs: ['News, images and videos document meetings, workshops and public presentations.'], image: withLocalizedAlt(editorialImages.passage, 'Architectural decorations inside the Odesa Passage')},
     contact: {title: 'Would you like to join the journey?', paragraphs: ['Contact us to learn about upcoming activities or propose a collaboration.']},
   },
   project: {
@@ -25,7 +26,7 @@ const content = {
       {marker: '03 · 2027', title: 'Experimentation', text: 'Testing solutions in partner contexts.'},
       {marker: '04 · 2028', title: 'Public return', text: 'Evaluation, publications and open meetings.'},
     ],
-    imageLabel: 'Project methodology diagram',
+    image: withLocalizedAlt(editorialImages.stairs, 'Front view of the Potemkin Stairs in Odesa'),
   },
   activities: {
     lead: {eyebrow: 'Activities', title: 'Learn, experiment, give back.', intro: 'The programme combines research, training and production to generate useful outcomes that continue beyond the project.'},
@@ -73,7 +74,7 @@ const content = {
       {id: 'toolkit', type: 'PDF · Demo', title: 'Operational toolkit', description: 'Methods and worksheets for replicating workshops.'},
       {id: 'dataset', type: 'XLSX · Demo', title: 'Indicator dataset', description: 'Demonstration structure for monitoring.'},
     ],
-    media: {title: 'An open archive', paragraphs: ['The visual story complements the data with voices, process images and public materials.'], mediaLabel: 'Preview of multimedia results'},
+    media: {title: 'An open archive', paragraphs: ['The visual story complements the data with voices, process images and public materials.'], image: withLocalizedAlt(editorialImages.port, 'Odesa port at sunset with a sailing boat')},
   },
   media: {
     lead: {eyebrow: 'Media', title: 'Follow the project closely.', intro: 'A demonstration archive brings together updates, images and videos produced throughout the journey.'},

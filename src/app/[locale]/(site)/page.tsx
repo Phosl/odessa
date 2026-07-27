@@ -5,7 +5,7 @@ import {getRouteHref} from '@/i18n/routing'
 import {getSiteContent} from '@/lib/content/repository'
 import {createPageMetadata} from '@/lib/metadata'
 import {ActivityCard, ResultStat} from '@/components/sections/Cards'
-import {Cta, CtaSection, ImagePlaceholder, PageIntro, PageMain, SectionHeading, VideoPlaceholder} from '@/components/wireframe/Wireframe'
+import {Cta, CtaSection, EditorialPhoto, PageIntro, PageMain, SectionHeading} from '@/components/wireframe/Wireframe'
 import styles from '@/styles/Pages.module.css'
 
 export async function generateMetadata({params}: {params: LocaleParams}): Promise<Metadata> {
@@ -23,7 +23,7 @@ export default async function HomePage({params}: {params: LocaleParams}) {
         <div className={`container ${styles.hero}`}>
           <PageIntro {...home.lead} index="00 / 08" />
           <div className={styles.heroMedia} data-reveal>
-            <VideoPlaceholder description={home.videoLabel} label={t('common.videoPlaceholder', {number: '01'})} />
+            <EditorialPhoto image={home.heroImage} priority ratio="cinematic" />
           </div>
           <div data-reveal><Cta destinationLabel={t('navigation.project')} href={getRouteHref('project', locale)} label={t('actions.discoverProject')} /></div>
         </div>
@@ -31,7 +31,9 @@ export default async function HomePage({params}: {params: LocaleParams}) {
 
       <section className="section">
         <div className={`container ${styles.split}`}>
-          <div data-reveal><ImagePlaceholder description={home.project.imageLabel} label={t('common.imagePlaceholder', {number: '01'})} /></div>
+          <div data-reveal>
+            <EditorialPhoto image={home.project.image} sizes="(min-width: 48rem) 50vw, calc(100vw - 2rem)" />
+          </div>
           <div className={styles.previewCopy} data-reveal>
             <span className="meta">01 / 06</span>
             <h2>{home.project.title}</h2>
@@ -76,7 +78,9 @@ export default async function HomePage({params}: {params: LocaleParams}) {
             <p className="body-copy">{home.media.paragraphs[0]}</p>
             <div><Cta destinationLabel={t('navigation.media')} href={getRouteHref('media', locale)} label={t('actions.viewMedia')} /></div>
           </div>
-          <div data-reveal><ImagePlaceholder description={home.media.imageLabel} label={t('common.imagePlaceholder', {number: '05'})} /></div>
+          <div data-reveal>
+            <EditorialPhoto image={home.media.image} sizes="(min-width: 48rem) 50vw, calc(100vw - 2rem)" />
+          </div>
         </div>
       </section>
 

@@ -1,4 +1,5 @@
 import type {SiteContent} from '../types'
+import {editorialImages, withLocalizedAlt} from '../editorial-images'
 import materials from '../materials/it'
 
 const content = {
@@ -8,11 +9,11 @@ const content = {
       title: 'Distanze diverse, un terreno comune.',
       intro: 'Odessa è un progetto dimostrativo di collaborazione tra comunità, istituzioni e giovani professionisti in Italia e Ucraina.',
     },
-    videoLabel: 'Introduzione al progetto Odessa',
+    heroImage: withLocalizedAlt(editorialImages.opera, 'Il Teatro Nazionale dell’Opera e del Balletto di Odessa visto dalla piazza'),
     project: {
       title: 'Una piattaforma per costruire relazioni durature',
       paragraphs: ['Il progetto unisce ricerca sul campo, formazione e produzione culturale per trasformare lo scambio in strumenti condivisi.'],
-      imageLabel: 'Mappa delle comunità coinvolte',
+      image: withLocalizedAlt(editorialImages.coast, 'Onde sulla costa del Mar Nero a Odessa'),
     },
     activities: {
       title: 'Attività che collegano persone e competenze',
@@ -29,7 +30,7 @@ const content = {
     media: {
       title: 'Il progetto, mentre accade',
       paragraphs: ['Notizie, immagini e video documentano incontri, laboratori e momenti di restituzione.'],
-      imageLabel: 'Anteprima dell’archivio media',
+      image: withLocalizedAlt(editorialImages.passage, 'Decorazioni architettoniche del Passage di Odessa'),
     },
     contact: {
       title: 'Vuoi prendere parte al percorso?',
@@ -70,7 +71,7 @@ const content = {
       {marker: '03 · 2027', title: 'Sperimentazione', text: 'Test delle soluzioni nei contesti partner.'},
       {marker: '04 · 2028', title: 'Restituzione', text: 'Valutazione, pubblicazioni e incontri aperti.'},
     ],
-    imageLabel: 'Schema metodologico del progetto',
+    image: withLocalizedAlt(editorialImages.stairs, 'Vista frontale della Scalinata Potëmkin a Odessa'),
   },
   activities: {
     lead: {
@@ -144,7 +145,7 @@ const content = {
     media: {
       title: 'Un archivio aperto',
       paragraphs: ['Il racconto visivo accompagna i dati con testimonianze, immagini di processo e materiali pubblici.'],
-      mediaLabel: 'Anteprima dei risultati multimediali',
+      image: withLocalizedAlt(editorialImages.port, 'Il porto di Odessa al tramonto con una barca a vela'),
     },
   },
   media: {
