@@ -1,6 +1,7 @@
 .header {
   background: color-mix(in srgb, var(--color-paper) 94%, transparent);
   border-bottom: var(--border);
+  isolation: isolate;
   left: 0;
   position: sticky;
   right: 0;

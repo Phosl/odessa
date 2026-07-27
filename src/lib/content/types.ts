@@ -16,17 +16,24 @@ export type TimelineItem = {
   text: string
 }
 
-export type EditorialImage = {
+type EditorialImageBase = {
   src: string
   alt: string
+  caption: string
   width: number
   height: number
+  objectPosition?: string
+}
+
+export type EditorialImage = EditorialImageBase & ({
+  provenance: 'licensed'
   author: string
   sourceUrl: string
   license: string
   licenseUrl: string
-  objectPosition?: string
-}
+} | {
+  provenance: 'generated'
+})
 
 export type Activity = {
   id: string
@@ -35,7 +42,7 @@ export type Activity = {
   title: string
   summary: string
   date: string
-  imageLabel: string
+  image: EditorialImage
 }
 
 export type Partner = {
@@ -70,6 +77,7 @@ export type GalleryItem = {
   id: string
   label: string
   ratio: 'landscape' | 'portrait' | 'square'
+  image?: EditorialImage
 }
 
 export type MaterialColor = {
@@ -112,6 +120,7 @@ export type SiteContent = {
     lead: PageLead
     heroImage: EditorialImage
     project: TextSection & {image: EditorialImage}
+    culture: TextSection & {images: EditorialImage[]}
     activities: TextSection
     results: TextSection
     partners: TextSection

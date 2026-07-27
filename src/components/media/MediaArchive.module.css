@@ -29,6 +29,11 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+.galleryItem {
+  max-inline-size: 100%;
+  min-width: 0;
+}
+
 .featured {
   grid-column: 1 / -1;
 }

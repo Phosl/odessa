@@ -43,11 +43,29 @@ export default async function HomePage({params}: {params: LocaleParams}) {
         </div>
       </section>
 
+      <section className="section" data-testid="culture-section">
+        <div className="container">
+          <SectionHeading intro={home.culture.paragraphs[0]} title={home.culture.title} />
+          <div className={styles.cultureGrid}>
+            {home.culture.images.map((image, index) => (
+              <div className={styles.cultureItem} data-reveal key={image.src}>
+                <EditorialPhoto
+                  image={image}
+                  sizes={index === 2
+                    ? '(min-width: 72rem) 50rem, (min-width: 48rem) 66vw, calc(100vw - 2rem)'
+                    : '(min-width: 72rem) 43rem, (min-width: 48rem) 58vw, calc(100vw - 2rem)'}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section">
         <div className="container">
           <SectionHeading intro={home.activities.paragraphs[0]} title={home.activities.title} />
           <div className="grid-3">
-            {content.activities.items.slice(0, 3).map((activity, index) => <ActivityCard activity={activity} imageText={t('common.imagePlaceholder', {number: String(index + 2).padStart(2, '0')})} key={activity.id} />)}
+            {content.activities.items.slice(0, 3).map((activity) => <ActivityCard activity={activity} key={activity.id} />)}
           </div>
           <div className="section--compact" data-reveal><Cta destinationLabel={t('navigation.activities')} href={getRouteHref('activities', locale)} label={t('actions.viewActivities')} /></div>
         </div>

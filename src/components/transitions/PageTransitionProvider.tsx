@@ -28,6 +28,26 @@ function prefersReducedMotion() {
 }
 
 const LINE_COUNT = 6
+const PENDING_FOCUS_KEY = 'odessa-pending-focus'
+const FULL_LINE_CLIP = 'inset(0 0% 0 0)'
+const LINE_FLOW = {
+  ltr: {
+    enterClip: 'inset(0 100% 0 0)',
+    exitClip: 'inset(0 0 0 100%)',
+  },
+  rtl: {
+    enterClip: 'inset(0 0 0 100%)',
+    exitClip: 'inset(0 100% 0 0)',
+  },
+} as const
+
+function getLineFlow(line: HTMLElement) {
+  return LINE_FLOW[line.dataset.direction === 'rtl' ? 'rtl' : 'ltr']
+}
+
+function resetLineFlow(lines: NodeListOf<HTMLElement>) {
+  lines.forEach((line) => gsap.set(line, {clipPath: getLineFlow(line).enterClip}))
+}
 
 export function PageTransitionProvider({children, openingAnnouncement, announcement}: {children: ReactNode; openingAnnouncement: string; announcement: string}) {
   const pathname = usePathname()
@@ -82,8 +102,10 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
   const focusAndAnnounce = useCallback(() => {
     const main = document.getElementById('main-content')
     main?.focus({preventScroll: true})
+    window.requestAnimationFrame(() => main?.focus({preventScroll: true}))
     const title = main?.querySelector('h1')?.textContent?.trim() || document.title
     if (liveRef.current) liveRef.current.textContent = announcement.replace('{page}', title)
+    window.sessionStorage.removeItem(PENDING_FOCUS_KEY)
   }, [announcement])
 
   const finishTransition = useCallback(() => {
@@ -99,7 +121,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     if (main) gsap.set(main, {clearProps: 'opacity,transform'})
     if (overlayRef.current) {
       const lines = overlayRef.current.querySelectorAll<HTMLElement>('[data-transition-line]')
-      gsap.set(lines, {scaleX: 0})
+      resetLineFlow(lines)
       gsap.set(overlayRef.current, {display: 'none'})
       overlayRef.current.dataset.transitionState = 'idle'
     }
@@ -132,6 +154,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
 
     const commit = () => {
       window.scrollTo({top: 0, left: 0, behavior: 'auto'})
+      window.sessionStorage.setItem(PENDING_FOCUS_KEY, 'true')
       const target = `${destination.pathname}${destination.search}${destination.hash}`
       if (replace) router.replace(target, {scroll: false})
       else router.push(target, {scroll: false})
@@ -153,7 +176,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     overlay.dataset.transitionState = 'building'
     gsap.set(overlay, {display: 'grid'})
     gsap.set(veil, {opacity: 0})
-    gsap.set(lines, {scaleX: 0})
+    resetLineFlow(lines)
     gsap.set(diamond, {opacity: 0, rotation: 45, scale: 0.82})
     gsap.set(sun, {opacity: 0, scale: 0})
 
@@ -177,9 +200,10 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
       .to(veil, {opacity: 0, duration: 0.56, ease: 'power3.inOut'}, 0.78)
 
     lines.forEach((line, index) => {
+      const flow = getLineFlow(line)
       timeline
-        .to(line, {scaleX: 1, duration: 0.5, ease: 'power4.inOut'}, index * 0.055)
-        .to(line, {scaleX: 0, duration: 0.52, ease: 'power4.inOut'}, 0.62 + (index * 0.055))
+        .to(line, {clipPath: FULL_LINE_CLIP, duration: 0.5, ease: 'power4.inOut'}, index * 0.055)
+        .to(line, {clipPath: flow.exitClip, duration: 0.52, ease: 'power4.inOut'}, 0.62 + (index * 0.055))
     })
     timelineRef.current = timeline
   }, [finishWhenReady, openingAnnouncement, router])
@@ -188,6 +212,9 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     if (!mountedRef.current) {
       mountedRef.current = true
       prepareReveals()
+      if (window.sessionStorage.getItem(PENDING_FOCUS_KEY) === 'true') {
+        window.requestAnimationFrame(focusAndAnnounce)
+      }
       return
     }
 
@@ -226,7 +253,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     }
 
     gsap.fromTo(main, {opacity: 0, y: 18}, {opacity: 1, y: 0, duration: 0.4, ease: 'power3.out', onComplete: finishTransition})
-  }, [clearFallback, finishTransition, finishWhenReady, pathname, prepareReveals])
+  }, [clearFallback, finishTransition, finishWhenReady, focusAndAnnounce, pathname, prepareReveals])
 
   useEffect(() => () => {
     timelineRef.current?.kill()

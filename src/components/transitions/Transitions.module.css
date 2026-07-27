@@ -45,16 +45,15 @@
   min-height: 0;
   overflow: hidden;
   position: relative;
-  transform: scaleX(0);
-  will-change: transform;
+  will-change: clip-path;
 }
 
 .line[data-direction="ltr"] {
-  transform-origin: left center;
+  clip-path: inset(0 100% 0 0);
 }
 
 .line[data-direction="rtl"] {
-  transform-origin: right center;
+  clip-path: inset(0 0 0 100%);
 }
 
 .stripe {

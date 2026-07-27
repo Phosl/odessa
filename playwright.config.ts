@@ -2,6 +2,9 @@ import {defineConfig, devices} from '@playwright/test'
 
 const testPort = process.env.ODESSA_TEST_PORT ?? '3000'
 const testBaseUrl = `http://127.0.0.1:${testPort}`
+const testServerCommand = process.env.ODESSA_TEST_PRODUCTION === '1'
+  ? `npm run start -- --port ${testPort}`
+  : `npm run dev -- --port ${testPort}`
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -19,7 +22,7 @@ export default defineConfig({
     {name: 'mobile', use: {...devices['Pixel 7'], channel: 'chrome'}},
   ],
   webServer: {
-    command: `npm run dev -- --port ${testPort}`,
+    command: testServerCommand,
     url: `${testBaseUrl}/it`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

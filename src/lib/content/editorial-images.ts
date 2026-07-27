@@ -1,9 +1,12 @@
 import type {EditorialImage} from './types'
 
-type ImageSource = Omit<EditorialImage, 'alt'>
+type LicensedImageSource = Omit<Extract<EditorialImage, {provenance: 'licensed'}>, 'alt' | 'caption'>
+type GeneratedImageSource = Omit<Extract<EditorialImage, {provenance: 'generated'}>, 'alt' | 'caption'>
+type ImageSource = LicensedImageSource | GeneratedImageSource
 
 export const editorialImages = {
   opera: {
+    provenance: 'licensed',
     src: '/assets/photos/odesa-opera.jpg',
     width: 1920,
     height: 1303,
@@ -14,6 +17,7 @@ export const editorialImages = {
     objectPosition: '50% 58%',
   },
   coast: {
+    provenance: 'licensed',
     src: '/assets/photos/odesa-coast.jpg',
     width: 1920,
     height: 1440,
@@ -24,6 +28,7 @@ export const editorialImages = {
     objectPosition: '50% 58%',
   },
   passage: {
+    provenance: 'licensed',
     src: '/assets/photos/odesa-passage.jpg',
     width: 1920,
     height: 1080,
@@ -34,6 +39,7 @@ export const editorialImages = {
     objectPosition: '48% 50%',
   },
   stairs: {
+    provenance: 'licensed',
     src: '/assets/photos/odesa-stairs.jpg',
     width: 1920,
     height: 1440,
@@ -44,6 +50,7 @@ export const editorialImages = {
     objectPosition: '50% 54%',
   },
   port: {
+    provenance: 'licensed',
     src: '/assets/photos/odesa-port.jpg',
     width: 1920,
     height: 1280,
@@ -53,8 +60,99 @@ export const editorialImages = {
     licenseUrl: 'https://creativecommons.org/licenses/by/3.0/',
     objectPosition: '50% 55%',
   },
+  artMuseum: {
+    provenance: 'licensed',
+    src: '/assets/photos/odesa-art-museum-interior.jpg',
+    width: 1920,
+    height: 1440,
+    author: 'Adrian1111',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Interior_of_Odesa_Fine_Arts_Museum.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    objectPosition: '50% 48%',
+  },
+  sunnyDay: {
+    provenance: 'licensed',
+    src: '/assets/photos/emile-claus-sunny-day.jpg',
+    width: 900,
+    height: 705,
+    author: 'Émile Claus',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Emile_Claus,_Sunny_Day,_1895,_oil_on_canvas,_65,5_x_81,6_cm,_Odesa_Museum_of_Western_and_Eastern_Art,_inv._no._%D0%97%D0%96-123.jpg',
+    license: 'Public Domain Mark 1.0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/mark/1.0/',
+    objectPosition: '50% 50%',
+  },
+  frescoRestoration: {
+    provenance: 'licensed',
+    src: '/assets/photos/fresco-restoration-mnac.jpg',
+    width: 1920,
+    height: 1280,
+    author: 'Joe Mabel',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Restoration_work_on_the_frescos_of_Sant_Climent_de_Ta%C3%BCll_01.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    objectPosition: '51% 48%',
+  },
+  restorationPlaster: {
+    provenance: 'generated',
+    src: '/assets/photos/restoration-plaster-concept.jpg',
+    width: 1536,
+    height: 1024,
+    objectPosition: '50% 50%',
+  },
+  conservationMaterials: {
+    provenance: 'generated',
+    src: '/assets/photos/conservation-materials-concept.jpg',
+    width: 1254,
+    height: 1254,
+    objectPosition: '50% 50%',
+  },
+  restorationFresco: {
+    provenance: 'generated',
+    src: '/assets/editorial/generated-fresco-detail.jpg',
+    width: 1672,
+    height: 941,
+    objectPosition: '50% 50%',
+  },
+  restorationMaterials: {
+    provenance: 'generated',
+    src: '/assets/editorial/generated-pigment-archive.jpg',
+    width: 1672,
+    height: 941,
+    objectPosition: '50% 50%',
+  },
+  restorationWorkshop: {
+    provenance: 'generated',
+    src: '/assets/editorial/generated-conservation-workshop.jpg',
+    width: 1672,
+    height: 941,
+    objectPosition: '50% 45%',
+  },
+  restorationTeam: {
+    provenance: 'generated',
+    src: '/assets/editorial/generated-restoration-team.jpg',
+    width: 1672,
+    height: 941,
+    objectPosition: '50% 42%',
+  },
+  artInstallation: {
+    provenance: 'generated',
+    src: '/assets/editorial/generated-art-installation.jpg',
+    width: 1672,
+    height: 941,
+    objectPosition: '50% 50%',
+  },
+  contemporaryHeritageArt: {
+    provenance: 'generated',
+    src: '/assets/editorial/generated-contemporary-heritage-art.jpg',
+    width: 1536,
+    height: 1024,
+    objectPosition: '50% 50%',
+  },
 } as const satisfies Record<string, ImageSource>
 
-export function withLocalizedAlt(image: ImageSource, alt: string): EditorialImage {
-  return {...image, alt}
+export function withLocalizedAlt(image: ImageSource, alt: string, caption = alt): EditorialImage {
+  return {...image, alt, caption}
 }
+
+export const localizeEditorialImage = withLocalizedAlt

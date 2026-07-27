@@ -1,5 +1,5 @@
 import type {SiteContent} from '../types'
-import {editorialImages, withLocalizedAlt} from '../editorial-images'
+import {editorialImages, localizeEditorialImage} from '../editorial-images'
 import materials from '../materials/it'
 
 const content = {
@@ -9,11 +9,20 @@ const content = {
       title: 'Distanze diverse, un terreno comune.',
       intro: 'Odessa è un progetto dimostrativo di collaborazione tra comunità, istituzioni e giovani professionisti in Italia e Ucraina.',
     },
-    heroImage: withLocalizedAlt(editorialImages.opera, 'Il Teatro Nazionale dell’Opera e del Balletto di Odessa visto dalla piazza'),
+    heroImage: localizeEditorialImage(editorialImages.opera, 'Il Teatro Nazionale dell’Opera e del Balletto di Odessa visto dalla piazza', 'Teatro dell’Opera di Odessa · fotografia di contesto'),
     project: {
       title: 'Una piattaforma per costruire relazioni durature',
       paragraphs: ['Il progetto unisce ricerca sul campo, formazione e produzione culturale per trasformare lo scambio in strumenti condivisi.'],
-      image: withLocalizedAlt(editorialImages.coast, 'Onde sulla costa del Mar Nero a Odessa'),
+      image: localizeEditorialImage(editorialImages.coast, 'Onde sulla costa del Mar Nero a Odessa', 'Costa del Mar Nero a Odessa · fotografia di contesto'),
+    },
+    culture: {
+      title: 'Arte, cura e rigenerazione',
+      paragraphs: ['La cultura materiale diventa uno spazio di incontro: osservare, conservare e reinterpretare il patrimonio significa costruire competenze condivise e nuove relazioni tra territori.'],
+      images: [
+        localizeEditorialImage(editorialImages.artMuseum, 'Sala espositiva del Museo Nazionale d’Arte di Odessa', 'Museo Nazionale d’Arte di Odessa · fotografia di contesto'),
+        localizeEditorialImage(editorialImages.sunnyDay, 'Sunny Day, dipinto di Émile Claus del 1895', 'Sunny Day, Émile Claus, 1895 · Museo d’Arte Occidentale e Orientale di Odessa'),
+        localizeEditorialImage(editorialImages.frescoRestoration, 'Allestimento per il restauro di un affresco di Sant Climent de Taüll', 'Immagine di contesto · restauro di affreschi, MNAC, Barcellona'),
+      ],
     },
     activities: {
       title: 'Attività che collegano persone e competenze',
@@ -30,7 +39,7 @@ const content = {
     media: {
       title: 'Il progetto, mentre accade',
       paragraphs: ['Notizie, immagini e video documentano incontri, laboratori e momenti di restituzione.'],
-      image: withLocalizedAlt(editorialImages.passage, 'Decorazioni architettoniche del Passage di Odessa'),
+      image: localizeEditorialImage(editorialImages.passage, 'Decorazioni architettoniche del Passage di Odessa', 'Passage di Odessa · fotografia di contesto'),
     },
     contact: {
       title: 'Vuoi prendere parte al percorso?',
@@ -71,7 +80,7 @@ const content = {
       {marker: '03 · 2027', title: 'Sperimentazione', text: 'Test delle soluzioni nei contesti partner.'},
       {marker: '04 · 2028', title: 'Restituzione', text: 'Valutazione, pubblicazioni e incontri aperti.'},
     ],
-    image: withLocalizedAlt(editorialImages.stairs, 'Vista frontale della Scalinata Potëmkin a Odessa'),
+    image: localizeEditorialImage(editorialImages.stairs, 'Vista frontale della Scalinata Potëmkin a Odessa', 'Scalinata Potëmkin · fotografia di contesto'),
   },
   activities: {
     lead: {
@@ -80,12 +89,12 @@ const content = {
       intro: 'Il programma combina momenti di ricerca, formazione e produzione per generare risultati utili anche dopo la conclusione del progetto.',
     },
     items: [
-      {id: 'research', number: '01', category: 'Ricerca', title: 'Mappatura partecipata', summary: 'Interviste e tavoli di lavoro per riconoscere risorse e bisogni dei territori.', date: 'Settembre–Novembre 2026', imageLabel: 'Sessione di mappatura partecipata'},
-      {id: 'training', number: '02', category: 'Formazione', title: 'Academy transnazionale', summary: 'Un ciclo di moduli su progettazione, facilitazione e comunicazione accessibile.', date: 'Gennaio–Marzo 2027', imageLabel: 'Aula dell’academy transnazionale'},
-      {id: 'residency', number: '03', category: 'Scambio', title: 'Residenza a Odessa', summary: 'Gruppi misti lavorano insieme su casi e sfide proposte dalle comunità.', date: 'Maggio 2027', imageLabel: 'Gruppo durante la residenza'},
-      {id: 'labs', number: '04', category: 'Laboratori', title: 'Prototipi locali', summary: 'Laboratori aperti trasformano le idee in strumenti, servizi e narrazioni.', date: 'Giugno–Ottobre 2027', imageLabel: 'Laboratorio di prototipazione'},
-      {id: 'exchange', number: '05', category: 'Mobilità', title: 'Visita studio in Italia', summary: 'Una settimana di incontri con istituzioni, università e realtà civiche.', date: 'Novembre 2027', imageLabel: 'Incontro durante la visita studio'},
-      {id: 'forum', number: '06', category: 'Disseminazione', title: 'Forum pubblico', summary: 'Risultati, metodi e prospettive vengono condivisi con una platea internazionale.', date: 'Marzo 2028', imageLabel: 'Forum conclusivo del progetto'},
+      {id: 'research', number: '01', category: 'Ricerca', title: 'Mappatura partecipata', summary: 'Interviste e tavoli di lavoro per riconoscere risorse e bisogni dei territori.', date: 'Settembre–Novembre 2026', image: localizeEditorialImage(editorialImages.artMuseum, 'Sala espositiva del Museo Nazionale d’Arte di Odessa', 'Museo Nazionale d’Arte di Odessa · fotografia di contesto')},
+      {id: 'training', number: '02', category: 'Formazione', title: 'Academy transnazionale', summary: 'Un ciclo di moduli su progettazione, facilitazione e comunicazione accessibile.', date: 'Gennaio–Marzo 2027', image: localizeEditorialImage(editorialImages.restorationPlaster, 'Mani guantate intervengono con un pennello fine su un ornamento neoclassico in gesso', 'Visuale concettuale generata · restauro decorativo')},
+      {id: 'residency', number: '03', category: 'Scambio', title: 'Residenza a Odessa', summary: 'Gruppi misti lavorano insieme su casi e sfide proposte dalle comunità.', date: 'Maggio 2027', image: localizeEditorialImage(editorialImages.passage, 'Decorazioni architettoniche all’interno del Passage di Odessa', 'Passage di Odessa · fotografia di contesto')},
+      {id: 'labs', number: '04', category: 'Laboratori', title: 'Prototipi locali', summary: 'Laboratori aperti trasformano le idee in strumenti, servizi e narrazioni.', date: 'Giugno–Ottobre 2027', image: localizeEditorialImage(editorialImages.conservationMaterials, 'Pigmenti minerali, lino, carta da lucido, guanti e pennelli disposti su un tavolo', 'Visuale concettuale generata · materiali di conservazione')},
+      {id: 'exchange', number: '05', category: 'Mobilità', title: 'Visita studio in Italia', summary: 'Una settimana di incontri con istituzioni, università e realtà civiche.', date: 'Novembre 2027', image: localizeEditorialImage(editorialImages.port, 'Il porto di Odessa al tramonto con una barca a vela', 'Porto di Odessa · fotografia di contesto')},
+      {id: 'forum', number: '06', category: 'Disseminazione', title: 'Forum pubblico', summary: 'Risultati, metodi e prospettive vengono condivisi con una platea internazionale.', date: 'Marzo 2028', image: localizeEditorialImage(editorialImages.opera, 'Il Teatro Nazionale dell’Opera e del Balletto di Odessa visto dalla piazza', 'Teatro dell’Opera di Odessa · fotografia di contesto')},
     ],
     calendar: {
       title: 'Calendario essenziale',
@@ -145,7 +154,7 @@ const content = {
     media: {
       title: 'Un archivio aperto',
       paragraphs: ['Il racconto visivo accompagna i dati con testimonianze, immagini di processo e materiali pubblici.'],
-      image: withLocalizedAlt(editorialImages.port, 'Il porto di Odessa al tramonto con una barca a vela'),
+      image: localizeEditorialImage(editorialImages.port, 'Il porto di Odessa al tramonto con una barca a vela', 'Porto di Odessa · fotografia di contesto'),
     },
   },
   media: {
@@ -167,14 +176,14 @@ const content = {
       {id: 'academy', date: '15 gennaio 2027', category: 'Comunicati', title: 'Aperte le candidature all’Academy', excerpt: 'Trenta posti per giovani professionisti e operatori delle comunità partner.'},
     ],
     gallery: [
-      {id: 'photo-01', label: 'Tavolo di lavoro locale', ratio: 'landscape'},
-      {id: 'photo-02', label: 'Ritratto di una partecipante', ratio: 'portrait'},
-      {id: 'photo-03', label: 'Materiali del laboratorio', ratio: 'square'},
-      {id: 'photo-04', label: 'Incontro tra i partner', ratio: 'landscape'},
-      {id: 'photo-05', label: 'Sessione di facilitazione', ratio: 'portrait'},
-      {id: 'photo-06', label: 'Mappa prodotta dal gruppo', ratio: 'square'},
-      {id: 'photo-07', label: 'Spazio del forum pubblico', ratio: 'landscape'},
-      {id: 'photo-08', label: 'Dettaglio di un prototipo', ratio: 'portrait'},
+      {id: 'photo-01', label: 'Restauro collaborativo', ratio: 'landscape'},
+      {id: 'photo-02', label: 'Dipinto della collezione di Odessa', ratio: 'portrait'},
+      {id: 'photo-03', label: 'Pigmenti e strumenti di conservazione', ratio: 'square'},
+      {id: 'photo-04', label: 'Laboratorio internazionale di conservazione', ratio: 'landscape'},
+      {id: 'photo-05', label: 'Restauro di affreschi', ratio: 'portrait'},
+      {id: 'photo-06', label: 'Installazione contemporanea', ratio: 'square'},
+      {id: 'photo-07', label: 'Museo d’Arte di Odessa', ratio: 'landscape'},
+      {id: 'photo-08', label: 'Installazione sulla memoria materica', ratio: 'portrait'},
     ],
   },
   materials,

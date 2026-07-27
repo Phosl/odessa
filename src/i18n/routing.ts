@@ -45,7 +45,9 @@ export function getRouteKeyFromPathname(pathname: string): RouteKey | null {
   const normalized = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname
   for (const route of routeKeys) {
     for (const locale of locales) {
-      if (getRouteHref(route, locale) === normalized) return route
+      const internal = getInternalPath(route)
+      const localizedInternal = internal === '/' ? `/${locale}` : `/${locale}${internal}`
+      if (getRouteHref(route, locale) === normalized || localizedInternal === normalized) return route
     }
   }
   return null

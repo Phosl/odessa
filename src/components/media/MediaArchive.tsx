@@ -4,7 +4,7 @@ import {useLayoutEffect, useRef, useState} from 'react'
 import gsap from 'gsap'
 import type {GalleryItem, NewsItem} from '@/lib/content/types'
 import {NewsCard} from '@/components/sections/Cards'
-import {ImagePlaceholder, VideoPlaceholder} from '@/components/wireframe/Wireframe'
+import {EditorialPhoto, ImagePlaceholder, VideoPlaceholder} from '@/components/wireframe/Wireframe'
 import styles from './MediaArchive.module.css'
 
 type Filter = 'all' | 'news' | 'photo' | 'video'
@@ -58,12 +58,21 @@ export function MediaArchive({news, gallery, featured, labels}: {
         ) : null}
         {showNews ? news.map((item) => <NewsCard item={item} key={item.id} />) : null}
         {showPhotos ? gallery.map((item, index) => (
-          <ImagePlaceholder
-            description={labels.imageDescriptionTemplate.replace('{number}', String(index + 1).padStart(2, '0')) + `: ${item.label}`}
-            key={item.id}
-            label={labels.imageTemplate.replace('{number}', String(index + 1).padStart(2, '0'))}
-            ratio={item.ratio}
-          />
+          <div className={styles.galleryItem} data-gallery-item key={item.id}>
+            {item.image ? (
+              <EditorialPhoto
+                image={item.image}
+                ratio={item.ratio}
+                sizes="(min-width: 72rem) 24rem, (min-width: 48rem) 45vw, calc(100vw - 2rem)"
+              />
+            ) : (
+              <ImagePlaceholder
+                description={labels.imageDescriptionTemplate.replace('{number}', String(index + 1).padStart(2, '0')) + `: ${item.label}`}
+                label={labels.imageTemplate.replace('{number}', String(index + 1).padStart(2, '0'))}
+                ratio={item.ratio}
+              />
+            )}
+          </div>
         )) : null}
         {!showVideo && !showNews && !showPhotos ? <p className={styles.empty}>{labels.empty}</p> : null}
       </div>

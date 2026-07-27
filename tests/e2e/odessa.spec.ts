@@ -1,4 +1,4 @@
-import {expect, test} from '@playwright/test'
+import {expect, test, type Locator, type Page} from '@playwright/test'
 
 const routes = {
   it: ['/it', '/it/progetto', '/it/attivita', '/it/partner', '/it/risultati', '/it/media', '/it/materiali', '/it/contatti', '/it/privacy', '/it/cookie-policy'],
@@ -6,7 +6,7 @@ const routes = {
   uk: ['/uk', '/uk/project', '/uk/activities', '/uk/partners', '/uk/results', '/uk/media', '/uk/materials', '/uk/contact', '/uk/privacy', '/uk/cookie-policy'],
 } as const
 
-async function findMediaOutsideContainer(page: import('@playwright/test').Page) {
+async function findMediaOutsideContainer(page: Page) {
   return page.locator('main img, main video, main [role="img"]').evaluateAll((media) => media.flatMap((element) => {
     const container = element.closest('.container')
     if (!container) return []
@@ -19,6 +19,17 @@ async function findMediaOutsideContainer(page: import('@playwright/test').Page) 
       container: {left: containerRect.left, right: containerRect.right, width: containerRect.width},
     }] : []
   }))
+}
+
+async function waitForLoadedImages(images: Locator) {
+  for (const image of await images.all()) {
+    await image.scrollIntoViewIfNeeded()
+    const alt = await image.getAttribute('alt')
+    await expect.poll(
+      () => image.evaluate((node: HTMLImageElement) => node.complete ? node.naturalWidth : 0),
+      {message: alt ?? 'Editorial image', timeout: 15_000},
+    ).toBeGreaterThan(0)
+  }
 }
 
 test.beforeEach(async ({page}, testInfo) => {
@@ -55,7 +66,7 @@ test('stays overflow-free and captures the target viewports', async ({page}, tes
     {width: 768, height: 1024},
     {width: 1440, height: 1000},
   ]
-  const densePages = ['/it', '/it/attivita', '/it/media', '/it/materiali', '/it/contatti']
+  const densePages = ['/it', '/en/activities', '/en/media', '/en/materials', '/en/contact']
 
   for (const viewport of viewports) {
     await page.setViewportSize(viewport)
@@ -66,8 +77,19 @@ test('stays overflow-free and captures the target viewports', async ({page}, tes
       expect(await findMediaOutsideContainer(page), `media outside container at ${path} / ${viewport.width}px`).toEqual([])
     }
     await page.goto('/it')
+    await waitForLoadedImages(page.locator('main img'))
+    await page.evaluate(() => window.scrollTo(0, 0))
     await page.screenshot({fullPage: true, path: `test-results/odessa-home-${viewport.width}.png`})
-    await page.goto('/it/materiali')
+    await page.goto('/en/activities')
+    await waitForLoadedImages(page.locator('article img'))
+    await page.evaluate(() => window.scrollTo(0, 0))
+    await page.screenshot({fullPage: true, path: `test-results/odessa-activities-${viewport.width}.png`})
+    await page.goto('/en/media')
+    await page.getByRole('button', {name: 'Photos'}).click()
+    await expect(page.locator('[data-gallery-item] img')).toHaveCount(0)
+    await expect(page.locator('[role="img"]').filter({hasText: /IMAGE/})).toHaveCount(8)
+    await page.screenshot({fullPage: true, path: `test-results/odessa-media-${viewport.width}.png`})
+    await page.goto('/en/materials')
     await page.screenshot({fullPage: true, path: `test-results/odessa-materials-${viewport.width}.png`})
   }
 })
@@ -79,7 +101,7 @@ test('renders licensed contextual photography and keeps editorial titles on the 
 
   const hero = page.getByAltText('Il Teatro Nazionale dell’Opera e del Balletto di Odessa visto dalla piazza')
   await expect(hero).toBeVisible()
-  expect(await hero.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBeTruthy()
+  await expect.poll(() => hero.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBeTruthy()
 
   const heroFigure = hero.locator('xpath=ancestor::figure')
   await expect(heroFigure.locator('a[href*="commons.wikimedia.org"]')).toHaveCount(1)
@@ -92,6 +114,43 @@ test('renders licensed contextual photography and keeps editorial titles on the 
   expect(titleBox).not.toBeNull()
   expect(introBox).not.toBeNull()
   expect(titleBox!.x).toBeLessThan(introBox!.x)
+})
+
+test('shows localized art and restoration imagery with honest provenance', async ({page}) => {
+  const remoteImageRequests: string[] = []
+  page.on('request', (request) => {
+    const url = new URL(request.url())
+    if (request.resourceType() === 'image' && !['127.0.0.1', 'localhost'].includes(url.hostname)) {
+      remoteImageRequests.push(request.url())
+    }
+  })
+
+  const localizedSections = [
+    {path: '/it', title: 'Arte, cura e rigenerazione'},
+    {path: '/en', title: 'Art, care and regeneration'},
+    {path: '/uk', title: 'Мистецтво, турбота та відновлення'},
+  ]
+
+  for (const locale of localizedSections) {
+    await page.goto(locale.path)
+    const section = page.getByTestId('culture-section')
+    await expect(section.getByRole('heading', {name: locale.title})).toBeVisible()
+    await expect(section.locator('img')).toHaveCount(3)
+    await expect(section.locator('[data-editorial-provenance="licensed"]')).toHaveCount(3)
+    await waitForLoadedImages(section.locator('img'))
+    expect(await findMediaOutsideContainer(page), `media outside container at ${locale.path}`).toEqual([])
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)).toBeFalsy()
+  }
+
+  await page.goto('/en/activities')
+  await expect(page.locator('article img')).toHaveCount(6)
+  const generatedFigures = page.locator('[data-editorial-provenance="generated"]')
+  await expect(generatedFigures).toHaveCount(2)
+  await expect(page.getByText(/Generated (?:editorial|conceptual) visual/)).toHaveCount(2)
+  await expect(generatedFigures.locator('a')).toHaveCount(0)
+  expect(await findMediaOutsideContainer(page), 'activity media outside container').toEqual([])
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)).toBeFalsy()
+  expect(remoteImageRequests).toEqual([])
 })
 
 test('redirects the root path to Italian', async ({page}) => {
@@ -119,11 +178,15 @@ test('publishes localized canonical and alternate metadata', async ({page}) => {
 test('filters local media content', async ({page}) => {
   await page.goto('/en/media')
   await page.getByRole('button', {name: 'Photos'}).click()
+  await expect(page.locator('[data-gallery-item]')).toHaveCount(8)
+  await expect(page.locator('[data-gallery-item] img')).toHaveCount(0)
   await expect(page.locator('[role="img"]').filter({hasText: /IMAGE/})).toHaveCount(8)
+  expect(await findMediaOutsideContainer(page), 'media archive images outside container').toEqual([])
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)).toBeFalsy()
   await expect(page.getByText('The Odessa journey begins')).toHaveCount(0)
   await page.getByRole('button', {name: 'Video'}).click()
   await expect(page.getByText('VIDEO 01')).toBeVisible()
-  await expect(page.locator('[role="img"]').filter({hasText: /IMAGE/})).toHaveCount(0)
+  await expect(page.locator('[data-gallery-item]')).toHaveCount(0)
 })
 
 test('organizes each identity proposal in an accessible tab', async ({page}) => {
@@ -203,6 +266,8 @@ test('flows the Odessa lines continuously into the destination', async ({page}, 
   await expect(lines).toHaveCount(6)
   await expect(lines.nth(0)).toHaveAttribute('data-direction', 'ltr')
   await expect(lines.nth(1)).toHaveAttribute('data-direction', 'rtl')
+  await expect(lines.nth(0)).toHaveCSS('clip-path', 'inset(0px 100% 0px 0px)')
+  await expect(lines.nth(1)).toHaveCSS('clip-path', 'inset(0px 0px 0px 100%)')
   await expect(lines.nth(0)).toHaveCSS('background-color', 'rgb(255, 255, 255)')
   await expect(stripes.nth(0)).toHaveCSS('background-color', 'rgb(37, 156, 211)')
   await expect(page.getByTestId('transition-diamond')).toHaveCSS('background-color', 'rgb(255, 255, 255)')
@@ -214,7 +279,7 @@ test('flows the Odessa lines continuously into the destination', async ({page}, 
   await expect(page).toHaveURL(/\/en$/)
   await expect(page.locator('[aria-live="polite"]')).toHaveText('Opening page: The project')
   if (testInfo.project.name === 'desktop') {
-    await page.waitForTimeout(470)
+    await page.waitForTimeout(800)
     await page.screenshot({path: 'test-results/odessa-transition-1440.png'})
   }
   await expect(page).toHaveURL(/\/en\/project$/)

@@ -1,8 +1,8 @@
 import type {Activity, NewsItem, Partner, Resource, Stat} from '@/lib/content/types'
-import {ImagePlaceholder} from '@/components/wireframe/Wireframe'
+import {EditorialPhoto} from '@/components/wireframe/Wireframe'
 import styles from './Cards.module.css'
 
-export function ActivityCard({activity, imageText}: {activity: Activity; imageText: string}) {
+export function ActivityCard({activity, priority = false}: {activity: Activity; priority?: boolean}) {
   return (
     <article className={styles.card} data-reveal>
       <div className={styles.cardHeader}>
@@ -14,7 +14,11 @@ export function ActivityCard({activity, imageText}: {activity: Activity; imageTe
         <p className="body-copy">{activity.summary}</p>
       </div>
       <div className={styles.activityMedia}>
-        <ImagePlaceholder description={activity.imageLabel} label={imageText} />
+        <EditorialPhoto
+          image={activity.image}
+          priority={priority}
+          sizes="(min-width: 72rem) 24rem, (min-width: 48rem) 33vw, calc(100vw - 2rem)"
+        />
       </div>
       <footer className={`${styles.cardFooter} meta`}>{activity.date}</footer>
     </article>

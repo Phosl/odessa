@@ -81,7 +81,7 @@ export function EditorialPhoto({
   sizes?: string
 }) {
   return (
-    <figure className={styles.photo}>
+    <figure className={styles.photo} data-editorial-provenance={image.provenance}>
       <div className={`${styles.photoFrame} ${styles[ratio]}`}>
         <Image
           alt={image.alt}
@@ -93,9 +93,15 @@ export function EditorialPhoto({
         />
       </div>
       <figcaption className={styles.photoCaption}>
-        <a href={image.sourceUrl} rel="noreferrer" target="_blank">{image.author}</a>
-        <span aria-hidden="true"> · </span>
-        <a href={image.licenseUrl} rel="noreferrer" target="_blank">{image.license}</a>
+        <span>{image.caption}</span>
+        {image.provenance === 'licensed' ? (
+          <span className={styles.photoCredit}>
+            <span aria-hidden="true"> · </span>
+            <a href={image.sourceUrl} rel="noreferrer" target="_blank">{image.author}</a>
+            <span aria-hidden="true"> · </span>
+            <a href={image.licenseUrl} rel="noreferrer" target="_blank">{image.license}</a>
+          </span>
+        ) : null}
       </figcaption>
     </figure>
   )

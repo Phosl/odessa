@@ -1,16 +1,25 @@
 import type {SiteContent} from '../types'
-import {editorialImages, withLocalizedAlt} from '../editorial-images'
+import {editorialImages, localizeEditorialImage} from '../editorial-images'
 import materials from '../materials/en'
 
 const content = {
   home: {
     lead: {eyebrow: 'International cooperation · 2026–2028', title: 'Different distances, common ground.', intro: 'Odessa is a demonstration project connecting communities, institutions and young professionals in Italy and Ukraine.'},
-    heroImage: withLocalizedAlt(editorialImages.opera, 'The Odesa National Opera and Ballet Theatre seen from the square'),
-    project: {title: 'A platform for lasting relationships', paragraphs: ['The project combines field research, training and cultural production to turn exchange into shared tools.'], image: withLocalizedAlt(editorialImages.coast, 'Waves on the Black Sea coast in Odesa')},
+    heroImage: localizeEditorialImage(editorialImages.opera, 'The Odesa National Opera and Ballet Theatre seen from the square', 'Odesa Opera Theatre · contextual photograph'),
+    project: {title: 'A platform for lasting relationships', paragraphs: ['The project combines field research, training and cultural production to turn exchange into shared tools.'], image: localizeEditorialImage(editorialImages.coast, 'Waves on the Black Sea coast in Odesa', 'Odesa Black Sea coast · contextual photograph')},
+    culture: {
+      title: 'Art, care and regeneration',
+      paragraphs: ['Material culture becomes a place of encounter: observing, conserving and reinterpreting heritage means building shared skills and new relationships between territories.'],
+      images: [
+        localizeEditorialImage(editorialImages.artMuseum, 'Exhibition room inside the Odesa Fine Arts Museum', 'Odesa Fine Arts Museum · contextual photograph'),
+        localizeEditorialImage(editorialImages.sunnyDay, 'Sunny Day, a painting by Émile Claus from 1895', 'Sunny Day, Émile Claus, 1895 · Odesa Museum of Western and Eastern Art'),
+        localizeEditorialImage(editorialImages.frescoRestoration, 'Restoration setup for a fresco from Sant Climent de Taüll', 'Context image · fresco restoration, MNAC, Barcelona'),
+      ],
+    },
     activities: {title: 'Activities connecting people and skills', paragraphs: ['Six coordinated actions take the project from early research to the public sharing of results.']},
     results: {title: 'Readable, verifiable impact', paragraphs: ['Simple indicators describe participation, collaborations and materials produced throughout the programme.']},
     partners: {title: 'A multidisciplinary network', paragraphs: ['Public bodies, universities and civic organizations contribute complementary perspectives.']},
-    media: {title: 'The project as it unfolds', paragraphs: ['News, images and videos document meetings, workshops and public presentations.'], image: withLocalizedAlt(editorialImages.passage, 'Architectural decorations inside the Odesa Passage')},
+    media: {title: 'The project as it unfolds', paragraphs: ['News, images and videos document meetings, workshops and public presentations.'], image: localizeEditorialImage(editorialImages.passage, 'Architectural decorations inside the Odesa Passage', 'Odesa Passage · contextual photograph')},
     contact: {title: 'Would you like to join the journey?', paragraphs: ['Contact us to learn about upcoming activities or propose a collaboration.']},
   },
   project: {
@@ -26,17 +35,17 @@ const content = {
       {marker: '03 · 2027', title: 'Experimentation', text: 'Testing solutions in partner contexts.'},
       {marker: '04 · 2028', title: 'Public return', text: 'Evaluation, publications and open meetings.'},
     ],
-    image: withLocalizedAlt(editorialImages.stairs, 'Front view of the Potemkin Stairs in Odesa'),
+    image: localizeEditorialImage(editorialImages.stairs, 'Front view of the Potemkin Stairs in Odesa', 'Potemkin Stairs · contextual photograph'),
   },
   activities: {
     lead: {eyebrow: 'Activities', title: 'Learn, experiment, give back.', intro: 'The programme combines research, training and production to generate useful outcomes that continue beyond the project.'},
     items: [
-      {id: 'research', number: '01', category: 'Research', title: 'Participatory mapping', summary: 'Interviews and working tables identify resources and needs across the territories.', date: 'September–November 2026', imageLabel: 'Participatory mapping session'},
-      {id: 'training', number: '02', category: 'Training', title: 'Transnational academy', summary: 'A series of modules on design, facilitation and accessible communication.', date: 'January–March 2027', imageLabel: 'Transnational academy classroom'},
-      {id: 'residency', number: '03', category: 'Exchange', title: 'Odessa residency', summary: 'Mixed groups work together on cases and challenges proposed by communities.', date: 'May 2027', imageLabel: 'Group taking part in the residency'},
-      {id: 'labs', number: '04', category: 'Workshops', title: 'Local prototypes', summary: 'Open workshops turn ideas into tools, services and narratives.', date: 'June–October 2027', imageLabel: 'Prototyping workshop'},
-      {id: 'exchange', number: '05', category: 'Mobility', title: 'Study visit in Italy', summary: 'A week of meetings with institutions, universities and civic organizations.', date: 'November 2027', imageLabel: 'Meeting during the study visit'},
-      {id: 'forum', number: '06', category: 'Dissemination', title: 'Public forum', summary: 'Results, methods and perspectives are shared with an international audience.', date: 'March 2028', imageLabel: 'Final project forum'},
+      {id: 'research', number: '01', category: 'Research', title: 'Participatory mapping', summary: 'Interviews and working tables identify resources and needs across the territories.', date: 'September–November 2026', image: localizeEditorialImage(editorialImages.artMuseum, 'Exhibition room inside the Odesa Fine Arts Museum', 'Odesa Fine Arts Museum · contextual photograph')},
+      {id: 'training', number: '02', category: 'Training', title: 'Transnational academy', summary: 'A series of modules on design, facilitation and accessible communication.', date: 'January–March 2027', image: localizeEditorialImage(editorialImages.restorationPlaster, 'Gloved hands use a fine brush on a neoclassical plaster ornament', 'Generated conceptual visual · decorative restoration')},
+      {id: 'residency', number: '03', category: 'Exchange', title: 'Odessa residency', summary: 'Mixed groups work together on cases and challenges proposed by communities.', date: 'May 2027', image: localizeEditorialImage(editorialImages.passage, 'Architectural decorations inside the Odesa Passage', 'Odesa Passage · contextual photograph')},
+      {id: 'labs', number: '04', category: 'Workshops', title: 'Local prototypes', summary: 'Open workshops turn ideas into tools, services and narratives.', date: 'June–October 2027', image: localizeEditorialImage(editorialImages.conservationMaterials, 'Mineral pigments, linen, tracing paper, gloves and brushes arranged on a table', 'Generated conceptual visual · conservation materials')},
+      {id: 'exchange', number: '05', category: 'Mobility', title: 'Study visit in Italy', summary: 'A week of meetings with institutions, universities and civic organizations.', date: 'November 2027', image: localizeEditorialImage(editorialImages.port, 'Odesa port at sunset with a sailing boat', 'Odesa port · contextual photograph')},
+      {id: 'forum', number: '06', category: 'Dissemination', title: 'Public forum', summary: 'Results, methods and perspectives are shared with an international audience.', date: 'March 2028', image: localizeEditorialImage(editorialImages.opera, 'The Odesa National Opera and Ballet Theatre seen from the square', 'Odesa Opera Theatre · contextual photograph')},
     ],
     calendar: {title: 'Essential calendar', paragraphs: ['The final calendar will be updated with venues, times and participation details.']},
     timeline: [
@@ -74,7 +83,7 @@ const content = {
       {id: 'toolkit', type: 'PDF · Demo', title: 'Operational toolkit', description: 'Methods and worksheets for replicating workshops.'},
       {id: 'dataset', type: 'XLSX · Demo', title: 'Indicator dataset', description: 'Demonstration structure for monitoring.'},
     ],
-    media: {title: 'An open archive', paragraphs: ['The visual story complements the data with voices, process images and public materials.'], image: withLocalizedAlt(editorialImages.port, 'Odesa port at sunset with a sailing boat')},
+    media: {title: 'An open archive', paragraphs: ['The visual story complements the data with voices, process images and public materials.'], image: localizeEditorialImage(editorialImages.port, 'Odesa port at sunset with a sailing boat', 'Odesa port · contextual photograph')},
   },
   media: {
     lead: {eyebrow: 'Media', title: 'Follow the project closely.', intro: 'A demonstration archive brings together updates, images and videos produced throughout the journey.'},
@@ -87,14 +96,14 @@ const content = {
       {id: 'academy', date: '15 January 2027', category: 'Press release', title: 'Applications open for the Academy', excerpt: 'Thirty places for young professionals and people working in partner communities.'},
     ],
     gallery: [
-      {id: 'photo-01', label: 'Local working table', ratio: 'landscape'},
-      {id: 'photo-02', label: 'Portrait of a participant', ratio: 'portrait'},
-      {id: 'photo-03', label: 'Workshop materials', ratio: 'square'},
-      {id: 'photo-04', label: 'Partner meeting', ratio: 'landscape'},
-      {id: 'photo-05', label: 'Facilitation session', ratio: 'portrait'},
-      {id: 'photo-06', label: 'Map produced by the group', ratio: 'square'},
-      {id: 'photo-07', label: 'Public forum venue', ratio: 'landscape'},
-      {id: 'photo-08', label: 'Detail of a prototype', ratio: 'portrait'},
+      {id: 'photo-01', label: 'Collaborative restoration', ratio: 'landscape'},
+      {id: 'photo-02', label: 'Painting from the Odesa collection', ratio: 'portrait'},
+      {id: 'photo-03', label: 'Pigments and conservation tools', ratio: 'square'},
+      {id: 'photo-04', label: 'International conservation workshop', ratio: 'landscape'},
+      {id: 'photo-05', label: 'Fresco restoration', ratio: 'portrait'},
+      {id: 'photo-06', label: 'Contemporary installation', ratio: 'square'},
+      {id: 'photo-07', label: 'Odesa Fine Arts Museum', ratio: 'landscape'},
+      {id: 'photo-08', label: 'Material memory installation', ratio: 'portrait'},
     ],
   },
   materials,
