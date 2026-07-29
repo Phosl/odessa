@@ -1,0 +1,253 @@
+.timeline {
+  background: var(--brand-black);
+  color: var(--color-paper);
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-3);
+  min-width: 0;
+  overflow: hidden;
+  padding: var(--space-4);
+}
+
+.header {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+}
+
+.header > span,
+.note {
+  color: var(--brand-yellow);
+}
+
+.header > span {
+  white-space: nowrap;
+}
+
+.header h3 {
+  font-size: clamp(2.25rem, 6vw, 6.5rem);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  margin: 0;
+  max-width: 11ch;
+}
+
+.header p {
+  color: color-mix(in srgb, var(--color-paper) 78%, transparent);
+  margin: var(--space-4) 0 0;
+  max-width: 42rem;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.plot {
+  min-width: 0;
+}
+
+.plot svg {
+  display: block;
+  overflow: visible;
+  width: 100%;
+}
+
+.gridLine {
+  stroke: color-mix(in srgb, var(--color-paper) 18%, transparent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.axisValue {
+  fill: color-mix(in srgb, var(--color-paper) 55%, transparent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.baseLine,
+.activeLine {
+  fill: none;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+
+.baseLine {
+  stroke: color-mix(in srgb, var(--color-paper) 35%, transparent);
+  stroke-width: 2;
+}
+
+.activeArea {
+  fill: color-mix(in srgb, var(--brand-blue) 32%, transparent);
+}
+
+.activeLine {
+  stroke: var(--brand-yellow);
+  stroke-width: 4;
+}
+
+.point,
+.activePoint {
+  vector-effect: non-scaling-stroke;
+}
+
+.point {
+  fill: var(--brand-black);
+  stroke: color-mix(in srgb, var(--color-paper) 70%, transparent);
+  stroke-width: 2;
+}
+
+.activePoint {
+  fill: var(--brand-yellow);
+  stroke: var(--color-paper);
+  stroke-width: 3;
+}
+
+.phaseList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+}
+
+.phaseList button {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-paper) 32%, transparent);
+  color: var(--color-paper);
+  cursor: pointer;
+  display: grid;
+  gap: 0.15rem;
+  min-height: 4rem;
+  padding: var(--space-2);
+  text-align: left;
+  width: 100%;
+}
+
+.phaseList button:hover,
+.phaseList button[aria-pressed="true"] {
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+}
+
+.phaseList span {
+  font-size: var(--text-sm);
+}
+
+.phaseList small {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.rangeLabel {
+  display: block;
+  margin-top: var(--space-4);
+}
+
+.rangeLabel input {
+  accent-color: var(--brand-yellow);
+  cursor: ew-resize;
+  inline-size: 100%;
+}
+
+.readout {
+  border-top: 1px solid color-mix(in srgb, var(--color-paper) 45%, transparent);
+  display: grid;
+  gap: var(--space-5);
+  padding-top: var(--space-3);
+}
+
+.activePhase {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.activePhase span {
+  color: var(--brand-yellow);
+}
+
+.activePhase strong {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.readout dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.readout dl > div {
+  border-top: 1px solid color-mix(in srgb, var(--color-paper) 22%, transparent);
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-2) var(--space-3) 0;
+}
+
+.readout dt {
+  color: color-mix(in srgb, var(--color-paper) 65%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  order: 2;
+  text-transform: uppercase;
+}
+
+.readout dd {
+  color: var(--brand-blue);
+  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  margin: 0;
+}
+
+.note {
+  border-top: 1px solid color-mix(in srgb, var(--color-paper) 30%, transparent);
+  margin: 0;
+  padding-top: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .timeline {
+    padding: var(--space-5);
+  }
+
+  .header {
+    grid-template-columns: 4rem minmax(0, 1fr);
+  }
+
+  .header > div {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.75fr);
+  }
+
+  .header p {
+    margin-top: 0;
+  }
+
+  .phaseList {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 72rem) {
+  .body {
+    align-items: end;
+    grid-template-columns: minmax(0, 2.1fr) minmax(18rem, 0.9fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phaseList button {
+    scroll-behavior: auto;
+  }
+}

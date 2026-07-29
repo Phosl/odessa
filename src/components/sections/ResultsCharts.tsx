@@ -1,4 +1,5 @@
-import type {Stat} from '@/lib/content/types'
+import type {ResultsTimelineContent, Stat} from '@/lib/content/types'
+import {ResultsTimelineChart} from '@/components/sections/ResultsTimelineChart'
 import {SectionHeading} from '@/components/wireframe/Wireframe'
 import styles from './ResultsCharts.module.css'
 
@@ -86,7 +87,7 @@ function ChartVisual({stat}: {stat: Stat}) {
   }
 }
 
-export function ResultsCharts({title, intro, stats}: {title: string; intro: string; stats: Stat[]}) {
+export function ResultsCharts({title, intro, stats, timeline}: {title: string; intro: string; stats: Stat[]; timeline: ResultsTimelineContent}) {
   return (
     <section className={`section ${styles.section}`}>
       <div className="container">
@@ -108,6 +109,7 @@ export function ResultsCharts({title, intro, stats}: {title: string; intro: stri
             </article>
           ))}
         </div>
+        <ResultsTimelineChart content={timeline} />
       </div>
     </section>
   )

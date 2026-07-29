@@ -151,6 +151,26 @@ const content = {
       {value: 12, label: 'prototipi', detail: 'sviluppati e testati con le comunità', visual: 'prototypes'},
       {value: 6, label: 'organizzazioni', detail: 'riunite in una rete transnazionale', visual: 'network'},
     ],
+    timeline: {
+      title: 'Il progetto, nel tempo.',
+      intro: 'Esplora la crescita prevista degli indicatori lungo le sei fasi del programma.',
+      note: 'Dati dimostrativi · Le rilevazioni reali sostituiranno queste proiezioni durante il monitoraggio.',
+      controlLabel: 'Seleziona una fase del progetto',
+      metrics: {
+        participants: 'partecipanti',
+        sessions: 'sessioni',
+        prototypes: 'prototipi',
+        organizations: 'organizzazioni',
+      },
+      items: [
+        {id: 'start', label: 'Avvio', date: 'Set 2026', participants: 18, sessions: 2, prototypes: 0, organizations: 3},
+        {id: 'mapping', label: 'Mappatura', date: 'Dic 2026', participants: 46, sessions: 6, prototypes: 1, organizations: 4},
+        {id: 'academy', label: 'Academy', date: 'Giu 2027', participants: 82, sessions: 12, prototypes: 3, organizations: 5},
+        {id: 'labs', label: 'Laboratori', date: 'Nov 2027', participants: 121, sessions: 18, prototypes: 7, organizations: 6},
+        {id: 'testing', label: 'Test', date: 'Gen 2028', participants: 154, sessions: 22, prototypes: 12, organizations: 6},
+        {id: 'forum', label: 'Forum', date: 'Mar 2028', participants: 180, sessions: 24, prototypes: 12, organizations: 6},
+      ],
+    },
     deliverables: {
       title: 'Risultati e deliverable',
       paragraphs: ['I prodotti finali saranno pensati per essere consultabili, riutilizzabili e adattabili da altri territori.'],

@@ -59,6 +59,30 @@ export type Stat = {
   visual: 'participants' | 'sessions' | 'prototypes' | 'network'
 }
 
+export type ResultsTimelinePoint = {
+  id: string
+  label: string
+  date: string
+  participants: number
+  sessions: number
+  prototypes: number
+  organizations: number
+}
+
+export type ResultsTimelineContent = {
+  title: string
+  intro: string
+  note: string
+  controlLabel: string
+  metrics: {
+    participants: string
+    sessions: string
+    prototypes: string
+    organizations: string
+  }
+  items: ResultsTimelinePoint[]
+}
+
 export type Resource = {
   id: string
   type: string
@@ -182,6 +206,7 @@ export type SiteContent = {
     lead: PageLead
     indicators: {title: string; intro: string}
     stats: Stat[]
+    timeline: ResultsTimelineContent
     deliverables: TextSection
     resourcesTitle: string
     resourcesIntro: string

@@ -121,6 +121,18 @@ test('turns the result indicators into accessible data visualizations', async ({
 
   await expect(page.getByRole('heading', {name: 'participants'})).toBeVisible()
   await expect(page.getByText('involved in local and international activities')).toBeVisible()
+
+  const timeline = page.locator('[data-result-timeline]')
+  await expect(timeline.getByRole('heading', {name: 'The project, over time.'})).toBeVisible()
+  const slider = timeline.getByRole('slider', {name: 'Select a project phase'})
+  await expect(slider).toHaveValue('5')
+  await slider.press('Home')
+  await expect(slider).toHaveValue('0')
+  await expect(timeline.locator('[aria-live="polite"] strong')).toHaveText('Start')
+  await expect(timeline.locator('[aria-live="polite"] dd').first()).toHaveText('18')
+  await timeline.getByRole('button', {name: /Forum/}).click()
+  await expect(slider).toHaveValue('5')
+  await expect(timeline.locator('[aria-live="polite"] dd').first()).toHaveText('180')
 })
 
 test('renders licensed contextual photography and keeps editorial titles on the left', async ({page}, testInfo) => {

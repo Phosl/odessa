@@ -19,7 +19,7 @@ export default async function ResultsPage({params}: {params: LocaleParams}) {
   return (
     <PageMain>
       <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="04 / 09" /></div></section>
-      <ResultsCharts intro={page.indicators.intro} stats={page.stats} title={page.indicators.title} />
+      <ResultsCharts intro={page.indicators.intro} stats={page.stats} timeline={page.timeline} title={page.indicators.title} />
       <EditorialSection content={page.deliverables} />
       <section className="section">
         <div className="container">
