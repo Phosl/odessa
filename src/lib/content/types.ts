@@ -53,9 +53,10 @@ export type Partner = {
 }
 
 export type Stat = {
-  value: string
+  value: number
   label: string
   detail: string
+  visual: 'participants' | 'sessions' | 'prototypes' | 'network'
 }
 
 export type Resource = {
@@ -179,6 +180,7 @@ export type SiteContent = {
   }
   results: {
     lead: PageLead
+    indicators: {title: string; intro: string}
     stats: Stat[]
     deliverables: TextSection
     resourcesTitle: string

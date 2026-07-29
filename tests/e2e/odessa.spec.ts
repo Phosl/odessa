@@ -108,6 +108,21 @@ test('stays overflow-free and captures the target viewports', async ({page}, tes
   }
 })
 
+test('turns the result indicators into accessible data visualizations', async ({page}) => {
+  await page.goto('/en/results')
+
+  await expect(page.getByRole('heading', {name: 'The programme in numbers'})).toBeVisible()
+  const charts = page.locator('[data-result-chart]')
+  await expect(charts).toHaveCount(4)
+  await expect(page.locator('[data-result-chart="participants"] [data-chart-units] i')).toHaveCount(18)
+  await expect(page.locator('[data-result-chart="sessions"] line')).toHaveCount(24)
+  await expect(page.locator('[data-result-chart="prototypes"] i')).toHaveCount(12)
+  await expect(page.locator('[data-result-chart="network"] g')).toHaveCount(6)
+
+  await expect(page.getByRole('heading', {name: 'participants'})).toBeVisible()
+  await expect(page.getByText('involved in local and international activities')).toBeVisible()
+})
+
 test('renders licensed contextual photography and keeps editorial titles on the left', async ({page}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Desktop grid placement is covered once')
   await page.setViewportSize({width: 1440, height: 1000})

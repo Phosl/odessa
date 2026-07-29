@@ -141,11 +141,15 @@ const content = {
       title: 'Misurare ciò che cambia.',
       intro: 'Questi dati dimostrativi mostrano come Odessa renderà leggibili partecipazione, apprendimento e capacità di collaborazione.',
     },
+    indicators: {
+      title: 'Il programma in numeri',
+      intro: 'Quattro indicatori rendono immediatamente visibili la scala prevista delle attività e la rete che le sostiene.',
+    },
     stats: [
-      {value: '180', label: 'partecipanti', detail: 'coinvolti nelle attività locali e internazionali'},
-      {value: '24', label: 'sessioni formative', detail: 'tra workshop, visite e laboratori'},
-      {value: '12', label: 'prototipi', detail: 'sviluppati e testati con le comunità'},
-      {value: '6', label: 'organizzazioni', detail: 'riunite in una rete transnazionale'},
+      {value: 180, label: 'partecipanti', detail: 'coinvolti nelle attività locali e internazionali', visual: 'participants'},
+      {value: 24, label: 'sessioni formative', detail: 'tra workshop, visite e laboratori', visual: 'sessions'},
+      {value: 12, label: 'prototipi', detail: 'sviluppati e testati con le comunità', visual: 'prototypes'},
+      {value: 6, label: 'organizzazioni', detail: 'riunite in una rete transnazionale', visual: 'network'},
     ],
     deliverables: {
       title: 'Risultati e deliverable',

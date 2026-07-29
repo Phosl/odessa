@@ -1,0 +1,224 @@
+.section {
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.chart {
+  background: var(--color-paper);
+  border: var(--border);
+  display: grid;
+  grid-template-rows: auto minmax(12rem, 1fr) auto;
+  min-height: clamp(24rem, 75vw, 32rem);
+  overflow: hidden;
+  padding: var(--space-4);
+}
+
+.chart:nth-child(2) {
+  background: var(--brand-yellow);
+}
+
+.chart:nth-child(2) .chartHeader strong,
+.chart:nth-child(2) .sessionDial strong {
+  color: var(--brand-black);
+}
+
+.chartHeader {
+  align-items: start;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chartHeader strong {
+  color: var(--brand-blue);
+  font-size: clamp(4rem, 13vw, 8.5rem);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.75;
+}
+
+.visual {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 0;
+  padding-block: var(--space-4);
+}
+
+.chartFooter {
+  align-items: end;
+  border-top: var(--border);
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+}
+
+.chartFooter h3,
+.chartFooter p {
+  margin: 0;
+}
+
+.chartFooter h3 {
+  font-size: var(--text-md);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.chartFooter p {
+  color: var(--color-dark);
+  max-width: 30rem;
+}
+
+.participantMatrix {
+  display: grid;
+  gap: clamp(0.3rem, 0.8vw, 0.7rem);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  width: 100%;
+}
+
+.participantMatrix i {
+  aspect-ratio: 1.6 / 1;
+  background: var(--brand-blue);
+  display: block;
+}
+
+.participantMatrix i:nth-child(4n + 2) {
+  background: var(--brand-yellow);
+}
+
+.participantMatrix i:nth-child(7n) {
+  background: var(--brand-black);
+}
+
+.sessionDial {
+  align-items: center;
+  aspect-ratio: 1;
+  display: grid;
+  max-width: 21rem;
+  position: relative;
+  width: 85%;
+}
+
+.sessionDial > * {
+  grid-area: 1 / 1;
+}
+
+.sessionDial svg {
+  overflow: visible;
+}
+
+.sessionDial circle {
+  fill: none;
+  stroke: color-mix(in srgb, var(--brand-black) 22%, transparent);
+  stroke-width: 0.7;
+}
+
+.sessionDial line {
+  stroke: var(--brand-black);
+  stroke-linecap: square;
+  stroke-width: 4;
+}
+
+.sessionDial line:nth-of-type(3n) {
+  stroke: var(--brand-blue);
+  stroke-width: 7;
+}
+
+.sessionDial strong {
+  color: var(--brand-blue);
+  font-size: clamp(5.5rem, 18vw, 11rem);
+  font-weight: 400;
+  justify-self: center;
+  letter-spacing: -0.08em;
+  line-height: 0.75;
+}
+
+.prototypeBars {
+  align-items: end;
+  display: grid;
+  gap: clamp(0.25rem, 0.7vw, 0.65rem);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  height: min(15rem, 70%);
+  width: 100%;
+}
+
+.prototypeBars i {
+  background: var(--brand-blue);
+  display: block;
+  min-height: 2rem;
+}
+
+.prototypeBars i:nth-child(4n) {
+  background: var(--brand-yellow);
+}
+
+.prototypeBars i:nth-child(5n) {
+  background: var(--brand-black);
+}
+
+.network {
+  max-height: 18rem;
+  overflow: visible;
+  width: min(100%, 24rem);
+}
+
+.network line {
+  stroke: var(--brand-blue);
+  stroke-width: 0.6;
+}
+
+.network circle {
+  fill: var(--brand-yellow);
+  stroke: var(--brand-black);
+  stroke-width: 0.8;
+}
+
+.network g:first-of-type circle {
+  fill: var(--brand-blue);
+}
+
+.network text {
+  fill: var(--brand-black);
+  font-family: var(--font-mono);
+  font-size: 3px;
+}
+
+@media (min-width: 48rem) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .chart {
+    min-height: clamp(27rem, 44vw, 39rem);
+  }
+
+  .chart:nth-child(1),
+  .chart:nth-child(4) {
+    grid-column: span 7;
+  }
+
+  .chart:nth-child(2),
+  .chart:nth-child(3) {
+    grid-column: span 5;
+  }
+
+  .chartFooter {
+    grid-template-columns: minmax(8rem, 0.75fr) minmax(0, 1.25fr);
+  }
+}
+
+@media (min-width: 72rem) {
+  .chart {
+    padding: var(--space-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart {
+    scroll-behavior: auto;
+  }
+}

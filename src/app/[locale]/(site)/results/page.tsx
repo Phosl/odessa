@@ -4,7 +4,8 @@ import {getPageLocale, type LocaleParams} from '@/i18n/locale'
 import {getRouteHref} from '@/i18n/routing'
 import {getSiteContent} from '@/lib/content/repository'
 import {createPageMetadata} from '@/lib/metadata'
-import {ResourceCard, ResultStat} from '@/components/sections/Cards'
+import {ResourceCard} from '@/components/sections/Cards'
+import {ResultsCharts} from '@/components/sections/ResultsCharts'
 import {Cta, CtaSection, EditorialGallery, EditorialSection, PageIntro, PageMain, SectionHeading} from '@/components/wireframe/Wireframe'
 
 export async function generateMetadata({params}: {params: LocaleParams}): Promise<Metadata> {
@@ -18,7 +19,7 @@ export default async function ResultsPage({params}: {params: LocaleParams}) {
   return (
     <PageMain>
       <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="04 / 09" /></div></section>
-      <section className="section"><div className="container"><div className="grid-4">{page.stats.map((stat) => <ResultStat key={stat.label} stat={stat} />)}</div></div></section>
+      <ResultsCharts intro={page.indicators.intro} stats={page.stats} title={page.indicators.title} />
       <EditorialSection content={page.deliverables} />
       <section className="section">
         <div className="container">

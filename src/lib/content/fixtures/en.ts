@@ -74,11 +74,12 @@ const content = {
   },
   results: {
     lead: {eyebrow: 'Results', title: 'Measure what changes.', intro: 'These demonstration figures show how Odessa will make participation, learning and collaboration capacity visible.'},
+    indicators: {title: 'The programme in numbers', intro: 'Four indicators make the planned scale of the activities and the network behind them immediately visible.'},
     stats: [
-      {value: '180', label: 'participants', detail: 'involved in local and international activities'},
-      {value: '24', label: 'training sessions', detail: 'including workshops, visits and laboratories'},
-      {value: '12', label: 'prototypes', detail: 'developed and tested with communities'},
-      {value: '6', label: 'organizations', detail: 'connected through a transnational network'},
+      {value: 180, label: 'participants', detail: 'involved in local and international activities', visual: 'participants'},
+      {value: 24, label: 'training sessions', detail: 'including workshops, visits and laboratories', visual: 'sessions'},
+      {value: 12, label: 'prototypes', detail: 'developed and tested with communities', visual: 'prototypes'},
+      {value: 6, label: 'organizations', detail: 'connected through a transnational network', visual: 'network'},
     ],
     deliverables: {title: 'Results and deliverables', paragraphs: ['Final outputs will be designed for consultation, reuse and adaptation by other territories.'], items: ['Map of needs and resources', 'Facilitation toolkit', 'Open training curriculum', 'Twelve documented prototypes', 'Evaluation report', 'Bilingual media archive']},
     resourcesTitle: 'Resources',
