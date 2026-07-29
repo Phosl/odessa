@@ -73,6 +73,34 @@ export type NewsItem = {
   excerpt: string
 }
 
+export const videoPillCategoryIds = ['discover', 'learning', 'voices', 'behindScenes'] as const
+export type VideoPillCategoryId = (typeof videoPillCategoryIds)[number]
+
+export type VideoPillAttachment = {
+  id: string
+  title: string
+  format: string
+  meta: string
+  href?: string
+}
+
+export type VideoPill = {
+  id: string
+  slug: string
+  number: string
+  category: VideoPillCategoryId
+  featured: boolean
+  title: string
+  summary: string
+  duration: string
+  body: string[]
+  video: {
+    embedUrl?: string
+    externalUrl?: string
+  }
+  attachments: VideoPillAttachment[]
+}
+
 export type GalleryItem = {
   id: string
   label: string
@@ -125,6 +153,7 @@ export type SiteContent = {
     results: TextSection
     partners: TextSection
     media: TextSection & {image: EditorialImage}
+    videoPills: TextSection
     contact: TextSection
   }
   project: {
@@ -135,7 +164,7 @@ export type SiteContent = {
     audiences: TextSection
     timelineTitle: string
     timeline: TimelineItem[]
-    image: EditorialImage
+    images: EditorialImage[]
   }
   activities: {
     lead: PageLead
@@ -155,7 +184,7 @@ export type SiteContent = {
     resourcesTitle: string
     resourcesIntro: string
     resources: Resource[]
-    media: TextSection & {image: EditorialImage}
+    media: TextSection & {images: EditorialImage[]}
   }
   media: {
     lead: PageLead
@@ -164,6 +193,14 @@ export type SiteContent = {
     archiveIntro: string
     news: NewsItem[]
     gallery: GalleryItem[]
+  }
+  videoPills: {
+    lead: PageLead
+    seriesTitle: string
+    seriesIntro: string
+    platformLabel: string
+    categories: Array<{id: VideoPillCategoryId; label: string}>
+    items: VideoPill[]
   }
   materials: MaterialsContent
   contact: {

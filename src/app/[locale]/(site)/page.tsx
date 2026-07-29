@@ -5,6 +5,7 @@ import {getRouteHref} from '@/i18n/routing'
 import {getSiteContent} from '@/lib/content/repository'
 import {createPageMetadata} from '@/lib/metadata'
 import {ActivityCard, ResultStat} from '@/components/sections/Cards'
+import {VideoPillsGrid} from '@/components/media/VideoPills'
 import {Cta, CtaSection, EditorialPhoto, PageIntro, PageMain, SectionHeading} from '@/components/wireframe/Wireframe'
 import styles from '@/styles/Pages.module.css'
 
@@ -21,7 +22,7 @@ export default async function HomePage({params}: {params: LocaleParams}) {
     <PageMain>
       <section className="section--hero">
         <div className={`container ${styles.hero}`}>
-          <PageIntro {...home.lead} index="00 / 08" />
+          <PageIntro {...home.lead} index="00 / 09" />
           <div className={styles.heroMedia} data-reveal>
             <EditorialPhoto image={home.heroImage} priority ratio="cinematic" />
           </div>
@@ -98,6 +99,26 @@ export default async function HomePage({params}: {params: LocaleParams}) {
           </div>
           <div data-reveal>
             <EditorialPhoto image={home.media.image} sizes="(min-width: 48rem) 50vw, calc(100vw - 2rem)" />
+          </div>
+        </div>
+      </section>
+
+      <section className="section" data-testid="video-pills-preview">
+        <div className="container">
+          <SectionHeading intro={home.videoPills.paragraphs[0]} title={home.videoPills.title} />
+          <VideoPillsGrid
+            categories={content.videoPills.categories}
+            items={content.videoPills.items.filter((item) => item.featured).slice(0, 3)}
+            locale={locale}
+            readLabel={t('videoPills.read')}
+            videoLabelTemplate={t.raw('common.videoPlaceholder')}
+          />
+          <div className="section--compact" data-reveal>
+            <Cta
+              destinationLabel={t('navigation.videoPills')}
+              href={getRouteHref('videoPills', locale)}
+              label={t('actions.viewVideoPills')}
+            />
           </div>
         </div>
       </section>

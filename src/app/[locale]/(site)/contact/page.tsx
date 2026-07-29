@@ -17,7 +17,7 @@ export default async function ContactPage({params}: {params: LocaleParams}) {
   const page = content.contact
   return (
     <PageMain>
-      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="07 / 09" /></div></section>
+      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="08 / 09" /></div></section>
       <section className="section">
         <div className={`container ${styles.split}`}>
           <div className={styles.details} data-reveal>

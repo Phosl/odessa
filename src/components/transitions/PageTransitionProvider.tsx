@@ -1,7 +1,7 @@
 'use client'
 
 import {usePathname, useRouter} from 'next/navigation'
-import {createContext, type ReactNode, useCallback, useContext, useEffect, useRef} from 'react'
+import {createContext, type ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useRef} from 'react'
 import gsap from 'gsap'
 import styles from './Transitions.module.css'
 
@@ -49,54 +49,117 @@ function resetLineFlow(lines: NodeListOf<HTMLElement>) {
   lines.forEach((line) => gsap.set(line, {clipPath: getLineFlow(line).enterClip}))
 }
 
+function shuffle<T>(items: T[]) {
+  for (let index = items.length - 1; index > 0; index -= 1) {
+    const target = Math.floor(Math.random() * (index + 1))
+    ;[items[index], items[target]] = [items[target], items[index]]
+  }
+  return items
+}
+
+function randomizeLineFlow(lines: NodeListOf<HTMLElement>) {
+  const directions = shuffle(Array.from(
+    {length: lines.length},
+    (_, index) => index < Math.ceil(lines.length / 2) ? 'ltr' : 'rtl',
+  ))
+  lines.forEach((line, index) => {
+    line.dataset.direction = directions[index]
+  })
+}
+
 export function PageTransitionProvider({children, openingAnnouncement, announcement}: {children: ReactNode; openingAnnouncement: string; announcement: string}) {
   const pathname = usePathname()
   const router = useRouter()
   const overlayRef = useRef<HTMLDivElement>(null)
-  const veilRef = useRef<HTMLSpanElement>(null)
-  const diamondRef = useRef<HTMLSpanElement>(null)
-  const sunRef = useRef<HTMLSpanElement>(null)
   const liveRef = useRef<HTMLParagraphElement>(null)
   const timelineRef = useRef<gsap.core.Timeline | null>(null)
-  const entryTweenRef = useRef<gsap.core.Tween | null>(null)
   const fallbackRef = useRef<number | null>(null)
+  const cleanupTimerRef = useRef<number | null>(null)
   const pendingPathRef = useRef<string | null>(null)
   const transitioningRef = useRef(false)
   const flowFinishedRef = useRef(false)
   const entryFinishedRef = useRef(false)
-  const mountedRef = useRef(false)
+  const renderedPathRef = useRef<string | null>(null)
+  const revealStartRef = useRef<(() => void) | null>(null)
   const revealCleanupRef = useRef<(() => void) | null>(null)
+  const revealedElementsRef = useRef(new WeakSet<HTMLElement>())
 
   const clearFallback = useCallback(() => {
     if (fallbackRef.current !== null) window.clearTimeout(fallbackRef.current)
     fallbackRef.current = null
   }, [])
 
-  const prepareReveals = useCallback(() => {
+  const prepareReveals = useCallback((defer = false) => {
     revealCleanupRef.current?.()
+    revealCleanupRef.current = null
+    revealStartRef.current = null
     const main = document.getElementById('main-content')
-    if (!main) return
+    if (!main) {
+      document.documentElement.classList.remove('reveal-pending')
+      return
+    }
     const elements = Array.from(main.querySelectorAll<HTMLElement>('[data-reveal]'))
-    if (!elements.length || prefersReducedMotion()) {
+    if (!elements.length) {
+      document.documentElement.classList.remove('reveal-pending')
+      return
+    }
+    gsap.killTweensOf(elements)
+    if (prefersReducedMotion()) {
       gsap.set(elements, {clearProps: 'opacity,transform'})
+      document.documentElement.classList.remove('reveal-pending')
+      return
+    }
+
+    const pendingElements = elements.filter((element) => !revealedElementsRef.current.has(element))
+    const revealedElements = elements.filter((element) => revealedElementsRef.current.has(element))
+    if (revealedElements.length) gsap.set(revealedElements, {clearProps: 'opacity,transform'})
+    if (!pendingElements.length) {
+      document.documentElement.classList.remove('reveal-pending')
       return
     }
 
     const context = gsap.context(() => {
-      gsap.set(elements, {opacity: 0, y: 24})
+      gsap.set(pendingElements, {opacity: 0, y: 24})
     }, main)
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue
-        observer.unobserve(entry.target)
-        gsap.to(entry.target, {opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', clearProps: 'opacity,transform'})
-      }
-    }, {rootMargin: '0px 0px -8% 0px', threshold: 0.08})
-    elements.forEach((element) => observer.observe(element))
-    revealCleanupRef.current = () => {
-      observer.disconnect()
-      context.revert()
+    document.documentElement.classList.remove('reveal-pending')
+    let observer: IntersectionObserver | null = null
+    const start = () => {
+      if (observer) return
+      const nextObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          nextObserver.unobserve(entry.target)
+          revealedElementsRef.current.add(entry.target as HTMLElement)
+          gsap.to(entry.target, {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: 'power3.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,transform',
+          })
+        }
+      }, {rootMargin: '0px 0px -8% 0px', threshold: 0.08})
+      observer = nextObserver
+      pendingElements.forEach((element) => observer?.observe(element))
     }
+    revealStartRef.current = start
+    revealCleanupRef.current = () => {
+      observer?.disconnect()
+      gsap.killTweensOf(pendingElements)
+      context.revert()
+      if (revealStartRef.current === start) revealStartRef.current = null
+    }
+    if (!defer) {
+      revealStartRef.current = null
+      start()
+    }
+  }, [])
+
+  const startPreparedReveals = useCallback(() => {
+    const start = revealStartRef.current
+    revealStartRef.current = null
+    start?.()
   }, [])
 
   const focusAndAnnounce = useCallback(() => {
@@ -113,7 +176,6 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     transitioningRef.current = false
     pendingPathRef.current = null
     timelineRef.current = null
-    entryTweenRef.current = null
     flowFinishedRef.current = false
     entryFinishedRef.current = false
     document.documentElement.classList.remove('is-transitioning')
@@ -125,12 +187,9 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
       gsap.set(overlayRef.current, {display: 'none'})
       overlayRef.current.dataset.transitionState = 'idle'
     }
-    if (veilRef.current) gsap.set(veilRef.current, {opacity: 0})
-    if (diamondRef.current) gsap.set(diamondRef.current, {opacity: 0, rotation: 45, scale: 0})
-    if (sunRef.current) gsap.set(sunRef.current, {opacity: 0, scale: 0})
-    prepareReveals()
+    startPreparedReveals()
     focusAndAnnounce()
-  }, [clearFallback, focusAndAnnounce, prepareReveals])
+  }, [clearFallback, focusAndAnnounce, startPreparedReveals])
 
   const finishWhenReady = useCallback(() => {
     if (flowFinishedRef.current && entryFinishedRef.current) finishTransition()
@@ -163,22 +222,18 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
 
     const main = document.getElementById('main-content')
     const overlay = overlayRef.current
-    const veil = veilRef.current
-    const diamond = diamondRef.current
-    const sun = sunRef.current
     const lines = overlay?.querySelectorAll<HTMLElement>('[data-transition-line]')
-    if (prefersReducedMotion() || !main || !overlay || !veil || !diamond || !sun || !lines?.length) {
+    if (prefersReducedMotion() || !main || !overlay || !lines?.length) {
       commit()
       return
     }
 
     timelineRef.current?.kill()
     overlay.dataset.transitionState = 'building'
-    gsap.set(overlay, {display: 'grid'})
-    gsap.set(veil, {opacity: 0})
+    gsap.set(overlay, {display: 'block'})
+    randomizeLineFlow(lines)
     resetLineFlow(lines)
-    gsap.set(diamond, {opacity: 0, rotation: 45, scale: 0.82})
-    gsap.set(sun, {opacity: 0, scale: 0})
+    const orderedLines = shuffle(Array.from(lines))
 
     const timeline = gsap.timeline({
       onComplete: () => {
@@ -187,30 +242,33 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
         finishWhenReady()
       },
     })
-      .to(main, {opacity: 0.08, y: -6, duration: 0.62, ease: 'power4.inOut'}, 0)
-      .to(veil, {opacity: 0.96, duration: 0.54, ease: 'power3.inOut'}, 0)
-      .to(diamond, {opacity: 1, scale: 1, duration: 0.38, ease: 'power3.out'}, 0.24)
-      .to(sun, {opacity: 1, scale: 1, duration: 0.32, ease: 'back.out(1.25)'}, 0.3)
-      .call(() => { overlay.dataset.transitionState = 'flowing' }, undefined, 0.5)
+      .call(() => { overlay.dataset.transitionState = 'flowing' }, undefined, 0)
       .call(() => {
         overlay.dataset.transitionState = 'navigating'
         commit()
-      }, undefined, 0.68)
-      .to([diamond, sun], {opacity: 0, scale: 0.9, duration: 0.3, ease: 'power2.inOut'}, 0.74)
-      .to(veil, {opacity: 0, duration: 0.56, ease: 'power3.inOut'}, 0.78)
+      }, undefined, 0.62)
 
-    lines.forEach((line, index) => {
+    orderedLines.forEach((line, index) => {
       const flow = getLineFlow(line)
+      const entranceStart = (index * 0.035) + (Math.random() * 0.02)
+      const exitStart = 0.72 + (index * 0.025) + (Math.random() * 0.02)
       timeline
-        .to(line, {clipPath: FULL_LINE_CLIP, duration: 0.5, ease: 'power4.inOut'}, index * 0.055)
-        .to(line, {clipPath: flow.exitClip, duration: 0.52, ease: 'power4.inOut'}, 0.62 + (index * 0.055))
+        .to(line, {clipPath: FULL_LINE_CLIP, duration: 0.38, ease: 'power3.inOut'}, entranceStart)
+        .to(line, {clipPath: flow.exitClip, duration: 0.42, ease: 'power3.inOut'}, exitStart)
     })
     timelineRef.current = timeline
   }, [finishWhenReady, openingAnnouncement, router])
 
-  useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true
+  useLayoutEffect(() => {
+    if (cleanupTimerRef.current !== null) {
+      window.clearTimeout(cleanupTimerRef.current)
+      cleanupTimerRef.current = null
+    }
+
+    const normalizedPath = pathname.replace(/\/$/, '') || '/'
+
+    if (renderedPathRef.current === null) {
+      renderedPathRef.current = normalizedPath
       prepareReveals()
       if (window.sessionStorage.getItem(PENDING_FOCUS_KEY) === 'true') {
         window.requestAnimationFrame(focusAndAnnounce)
@@ -218,17 +276,27 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
       return
     }
 
+    if (renderedPathRef.current === normalizedPath) {
+      // React Strict Mode tears effects down and runs them again in development.
+      // Recreate the observer only when that teardown removed it; do not start a
+      // second page-entry animation for the same pathname.
+      if (!revealCleanupRef.current && !prefersReducedMotion()) prepareReveals()
+      return
+    }
+
+    renderedPathRef.current = normalizedPath
     clearFallback()
     window.scrollTo({top: 0, left: 0, behavior: 'auto'})
     const main = document.getElementById('main-content')
     const overlay = overlayRef.current
-    const normalizedPath = pathname.replace(/\/$/, '') || '/'
     const expected = transitioningRef.current && pendingPathRef.current === normalizedPath
 
     if (!expected) {
       timelineRef.current?.kill()
-      entryTweenRef.current?.kill()
     }
+
+    if (main) gsap.set(main, {clearProps: 'opacity,transform'})
+    prepareReveals(true)
 
     if (!main || prefersReducedMotion()) {
       finishTransition()
@@ -237,30 +305,28 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
 
     if (expected && overlay) {
       overlay.dataset.transitionState = 'revealing'
-      gsap.set(main, {opacity: 0, y: 14})
-      entryTweenRef.current?.kill()
-      entryTweenRef.current = gsap.to(main, {
-        opacity: 1,
-        y: 0,
-        duration: 0.42,
-        ease: 'power3.out',
-        onComplete: () => {
-          entryFinishedRef.current = true
-          finishWhenReady()
-        },
-      })
+      startPreparedReveals()
+      entryFinishedRef.current = true
+      finishWhenReady()
       return
     }
 
-    gsap.fromTo(main, {opacity: 0, y: 18}, {opacity: 1, y: 0, duration: 0.4, ease: 'power3.out', onComplete: finishTransition})
-  }, [clearFallback, finishTransition, finishWhenReady, focusAndAnnounce, pathname, prepareReveals])
+    finishTransition()
+  }, [clearFallback, finishTransition, finishWhenReady, focusAndAnnounce, pathname, prepareReveals, startPreparedReveals])
 
   useEffect(() => () => {
-    timelineRef.current?.kill()
-    entryTweenRef.current?.kill()
-    clearFallback()
-    revealCleanupRef.current?.()
-    document.documentElement.classList.remove('is-transitioning')
+    // Strict Mode performs a teardown immediately followed by a setup in
+    // development. Defer disposal by one task so that setup can cancel it and
+    // preserve the in-flight reveal instead of restarting visible content.
+    cleanupTimerRef.current = window.setTimeout(() => {
+      timelineRef.current?.kill()
+      clearFallback()
+      revealCleanupRef.current?.()
+      revealCleanupRef.current = null
+      revealStartRef.current = null
+      document.documentElement.classList.remove('is-transitioning')
+      cleanupTimerRef.current = null
+    }, 0)
   }, [clearFallback])
 
   return (
@@ -269,16 +335,11 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
         {children}
         <p className="sr-only" aria-live="polite" aria-atomic="true" ref={liveRef} />
         <div aria-hidden="true" className={styles.overlay} data-testid="transition-overlay" data-transition-state="idle" ref={overlayRef}>
-          <span className={styles.veil} data-transition-veil ref={veilRef} />
           <div className={styles.lines}>
             {Array.from({length: LINE_COUNT}, (_, index) => (
-              <span className={styles.line} data-direction={index % 2 === 0 ? 'ltr' : 'rtl'} data-transition-line key={index}>
-                <span className={styles.stripe} data-transition-stripe />
-              </span>
+              <span className={styles.line} data-direction={index % 2 === 0 ? 'ltr' : 'rtl'} data-transition-line key={index} />
             ))}
           </div>
-          <span className={styles.diamond} data-testid="transition-diamond" ref={diamondRef} />
-          <span className={styles.sun} data-testid="transition-sun" ref={sunRef} />
         </div>
       </div>
     </PageTransitionContext.Provider>

@@ -2,7 +2,13 @@
 
 import {usePathname} from 'next/navigation'
 import {type MouseEvent, useSyncExternalStore} from 'react'
-import {getRouteHref, getRouteKeyFromPathname, type Locale} from '@/i18n/routing'
+import {
+  getRouteHref,
+  getRouteKeyFromPathname,
+  getVideoPillHref,
+  getVideoPillSlugFromPathname,
+  type Locale,
+} from '@/i18n/routing'
 import {TransitionLink} from '@/components/transitions/TransitionLink'
 
 type Language = {locale: Locale; short: string; label: string}
@@ -24,6 +30,7 @@ function getLocationDetails() {
 export function LocaleSwitcher({currentLocale, languages, className}: {currentLocale: Locale; languages: Language[]; className?: string}) {
   const pathname = usePathname()
   const route = getRouteKeyFromPathname(pathname) ?? 'home'
+  const videoPillSlug = getVideoPillSlugFromPathname(pathname)
   const locationDetails = useSyncExternalStore(subscribeToLocation, getLocationDetails, () => '')
 
   function preserveCurrentLocation(event: MouseEvent<HTMLAnchorElement>) {
@@ -36,7 +43,10 @@ export function LocaleSwitcher({currentLocale, languages, className}: {currentLo
   return (
     <ul className={className}>
       {languages.map((language) => {
-        const href = `${getRouteHref(route, language.locale)}${locationDetails}`
+        const routeHref = videoPillSlug
+          ? getVideoPillHref(language.locale, videoPillSlug)
+          : getRouteHref(route, language.locale)
+        const href = `${routeHref}${locationDetails}`
         return (
           <li key={language.locale}>
             <TransitionLink

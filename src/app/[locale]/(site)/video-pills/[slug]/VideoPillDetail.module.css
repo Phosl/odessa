@@ -1,0 +1,79 @@
+.videoLayout {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.player {
+  min-width: 0;
+}
+
+.player iframe {
+  aspect-ratio: 16 / 9;
+  border: var(--border);
+  display: block;
+  width: 100%;
+}
+
+.videoInfo {
+  align-content: start;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.videoInfo h2,
+.videoInfo p {
+  margin: 0;
+}
+
+.videoInfo h2 {
+  font-size: var(--text-md);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.pending {
+  border: 1px dashed var(--color-ink);
+  color: var(--color-dark);
+  padding: var(--space-3);
+}
+
+.attachments {
+  border-top: var(--border);
+}
+
+.attachment {
+  border-bottom: var(--border);
+}
+
+.attachmentLink,
+.attachmentPending {
+  align-items: baseline;
+  color: inherit;
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding-block: var(--space-3);
+  text-decoration: none;
+}
+
+.attachmentLink:hover strong {
+  text-decoration: underline;
+  text-decoration-color: var(--brand-yellow);
+  text-decoration-thickness: 0.18rem;
+  text-underline-offset: 0.25rem;
+}
+
+.attachmentMeta {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-align: right;
+  text-transform: uppercase;
+}
+
+@media (min-width: 48rem) {
+  .videoLayout {
+    align-items: start;
+    grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.5fr);
+  }
+}

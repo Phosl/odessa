@@ -92,18 +92,22 @@ export function EditorialPhoto({
           style={{objectPosition: image.objectPosition}}
         />
       </div>
-      <figcaption className={styles.photoCaption}>
-        <span>{image.caption}</span>
-        {image.provenance === 'licensed' ? (
-          <span className={styles.photoCredit}>
-            <span aria-hidden="true"> · </span>
-            <a href={image.sourceUrl} rel="noreferrer" target="_blank">{image.author}</a>
-            <span aria-hidden="true"> · </span>
-            <a href={image.licenseUrl} rel="noreferrer" target="_blank">{image.license}</a>
-          </span>
-        ) : null}
-      </figcaption>
     </figure>
+  )
+}
+
+export function EditorialGallery({images}: {images: EditorialImage[]}) {
+  return (
+    <div className={styles.editorialGallery}>
+      {images.map((image) => (
+        <div className={styles.editorialGalleryItem} data-reveal key={image.src}>
+          <EditorialPhoto
+            image={image}
+            sizes="(min-width: 72rem) 42rem, (min-width: 48rem) 50vw, calc(100vw - 2rem)"
+          />
+        </div>
+      ))}
+    </div>
   )
 }
 

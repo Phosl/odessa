@@ -13,7 +13,7 @@ export default async function CookiePage({params}: {params: LocaleParams}) {
   const page = (await getSiteContent(locale)).cookie
   return (
     <PageMain>
-      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="09 / 09" /><p className="legal-notice" data-reveal>{page.notice}</p></div></section>
+      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="10 / 10" /><p className="legal-notice" data-reveal>{page.notice}</p></div></section>
       {page.sections.map((section) => <EditorialSection content={section} key={section.title} />)}
     </PageMain>
   )

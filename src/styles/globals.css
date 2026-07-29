@@ -259,6 +259,11 @@ html.is-transitioning {
   cursor: wait;
 }
 
+.reveal-pending [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
 html.is-transitioning a,
 html.is-transitioning button {
   pointer-events: none;
@@ -291,6 +296,11 @@ html.is-transitioning button {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .reveal-pending [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 
   *,

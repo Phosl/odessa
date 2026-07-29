@@ -29,6 +29,7 @@
     "partners": "Partner",
     "results": "Risultati",
     "media": "Media",
+    "videoPills": "Pillole video",
     "materials": "Materiali",
     "contact": "Contatti",
     "privacy": "Privacy",
@@ -39,6 +40,7 @@
     "viewActivities": "Esplora le attività",
     "viewResults": "Guarda i risultati",
     "viewMedia": "Vai ai media",
+    "viewVideoPills": "Scopri tutte le pillole",
     "contactUs": "Contattaci",
     "downloadDemo": "Download demo",
     "unavailable": "File non disponibile in questa fase",
@@ -51,6 +53,18 @@
     "photo": "Foto",
     "video": "Video",
     "empty": "Nessun contenuto per questo filtro"
+  },
+  "videoPills": {
+    "filter": "Filtra le pillole video per categoria",
+    "all": "Tutte",
+    "read": "Apri la storia",
+    "storyTitle": "La storia",
+    "videoPending": "Il video sarà pubblicato sulla piattaforma del progetto.",
+    "watchExternal": "Guarda sulla piattaforma",
+    "attachmentsTitle": "Materiali allegati",
+    "attachmentsIntro": "Documenti, trascrizioni e strumenti collegati a questa pillola.",
+    "attachmentPending": "In arrivo",
+    "back": "Torna alle pillole video"
   },
   "form": {
     "name": "Nome",
@@ -82,7 +96,17 @@
     "statement": "Wireframe istituzionale per cooperazione, ricerca e scambio culturale.",
     "projectLabel": "Progetto",
     "legalLabel": "Informazioni legali",
-    "copyright": "© 2026 Odessa. Contenuti dimostrativi."
+    "copyright": "© 2026 Odessa. Contenuti dimostrativi.",
+    "credits": {
+      "button": "Crediti immagini",
+      "title": "Crediti immagini",
+      "intro": "Fonti e licenze delle fotografie utilizzate nel sito.",
+      "author": "Autore",
+      "source": "Fonte",
+      "license": "Licenza",
+      "generated": "Le immagini editoriali concettuali sono state generate con OpenAI e non documentano attività o restauri reali del progetto Odessa.",
+      "close": "Chiudi"
+    }
   },
   "metadata": {
     "home": {"title": "Odessa — Cooperazione e scambio", "description": "Wireframe dimostrativo del progetto Odessa."},
@@ -91,6 +115,7 @@
     "partners": {"title": "Partner — Odessa", "description": "La rete di partner del progetto Odessa."},
     "results": {"title": "Risultati — Odessa", "description": "Indicatori, risultati e risorse dimostrative."},
     "media": {"title": "Media — Odessa", "description": "News, video e galleria del progetto Odessa."},
+    "videoPills": {"title": "Pillole video — Odessa", "description": "Storie brevi, voci e processi del progetto Odessa in formato video."},
     "materials": {"title": "Materiali di identità — Odessa", "description": "Logo, palette, elementi grafici, claim e linee di tono per Odessa."},
     "contact": {"title": "Contatti — Odessa", "description": "Recapiti e form dimostrativo del progetto Odessa."},
     "privacy": {"title": "Privacy — Odessa", "description": "Informativa privacy dimostrativa da sostituire."},

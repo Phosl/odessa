@@ -1,8 +1,14 @@
-import type {EditorialImage} from './types'
+import type {EditorialImage, SiteContent} from './types'
 
 type LicensedImageSource = Omit<Extract<EditorialImage, {provenance: 'licensed'}>, 'alt' | 'caption'>
 type GeneratedImageSource = Omit<Extract<EditorialImage, {provenance: 'generated'}>, 'alt' | 'caption'>
 type ImageSource = LicensedImageSource | GeneratedImageSource
+type LicensedEditorialImage = Extract<EditorialImage, {provenance: 'licensed'}>
+
+export type EditorialImageCredits = {
+  licensed: Array<Pick<LicensedEditorialImage, 'src' | 'caption' | 'author' | 'sourceUrl' | 'license' | 'licenseUrl'>>
+  hasGenerated: boolean
+}
 
 export const editorialImages = {
   opera: {
@@ -156,3 +162,49 @@ export function withLocalizedAlt(image: ImageSource, alt: string, caption = alt)
 }
 
 export const localizeEditorialImage = withLocalizedAlt
+
+function isEditorialImage(value: unknown): value is EditorialImage {
+  if (!value || typeof value !== 'object') return false
+  const candidate = value as Record<string, unknown>
+  return (
+    (candidate.provenance === 'licensed' || candidate.provenance === 'generated')
+    && typeof candidate.src === 'string'
+    && typeof candidate.alt === 'string'
+    && typeof candidate.caption === 'string'
+  )
+}
+
+export function collectEditorialImageCredits(content: SiteContent): EditorialImageCredits {
+  const licensed = new Map<string, EditorialImageCredits['licensed'][number]>()
+  let hasGenerated = false
+
+  function visit(value: unknown) {
+    if (isEditorialImage(value)) {
+      if (value.provenance === 'generated') {
+        hasGenerated = true
+      } else if (!licensed.has(value.src)) {
+        licensed.set(value.src, {
+          src: value.src,
+          caption: value.caption,
+          author: value.author,
+          sourceUrl: value.sourceUrl,
+          license: value.license,
+          licenseUrl: value.licenseUrl,
+        })
+      }
+      return
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach(visit)
+      return
+    }
+
+    if (value && typeof value === 'object') {
+      Object.values(value).forEach(visit)
+    }
+  }
+
+  visit(content)
+  return {licensed: [...licensed.values()], hasGenerated}
+}

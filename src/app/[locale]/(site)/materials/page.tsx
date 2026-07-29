@@ -18,7 +18,7 @@ export default async function MaterialsPage({params}: {params: LocaleParams}) {
     <PageMain>
       <section className="section--hero">
         <div className={`container ${styles.hero}`}>
-          <PageIntro {...materials.lead} index="06 / 09" />
+          <PageIntro {...materials.lead} index="07 / 09" />
           <div className={styles.heroFooter} data-reveal>
             <aside className={styles.source}>
               <span className="meta">{materials.source.meta}</span>

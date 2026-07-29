@@ -162,7 +162,6 @@
 
 .photo {
   display: grid;
-  gap: var(--space-2);
   margin: 0;
   max-inline-size: 100%;
   min-width: 0;
@@ -189,23 +188,14 @@
   transform: scale(1.015);
 }
 
-.photoCaption {
-  color: var(--color-muted);
-  display: flex;
-  flex-wrap: wrap;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  gap: 0.35rem;
-  line-height: 1.4;
+.editorialGallery {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.photoCredit {
-  display: inline;
-}
-
-.photoCaption a {
-  color: inherit;
-  text-underline-offset: 0.18em;
+.editorialGalleryItem {
+  min-width: 0;
 }
 
 .timeline {
@@ -241,6 +231,20 @@
 @media (min-width: 48rem) {
   .cinematic {
     aspect-ratio: 16 / 7;
+  }
+
+  .editorialGallery {
+    align-items: start;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .editorialGalleryItem:nth-child(odd) {
+    grid-column: 1 / span 7;
+  }
+
+  .editorialGalleryItem:nth-child(even) {
+    grid-column: 8 / -1;
+    margin-top: var(--space-6);
   }
 
   .introBottom,

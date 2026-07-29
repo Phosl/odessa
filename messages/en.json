@@ -29,6 +29,7 @@
     "partners": "Partners",
     "results": "Results",
     "media": "Media",
+    "videoPills": "Video shorts",
     "materials": "Materials",
     "contact": "Contact",
     "privacy": "Privacy",
@@ -39,6 +40,7 @@
     "viewActivities": "Explore activities",
     "viewResults": "View results",
     "viewMedia": "Go to media",
+    "viewVideoPills": "Explore all video shorts",
     "contactUs": "Contact us",
     "downloadDemo": "Demo download",
     "unavailable": "File unavailable at this stage",
@@ -51,6 +53,18 @@
     "photo": "Photos",
     "video": "Video",
     "empty": "No content matches this filter"
+  },
+  "videoPills": {
+    "filter": "Filter video shorts by category",
+    "all": "All",
+    "read": "Open the story",
+    "storyTitle": "The story",
+    "videoPending": "The video will be published on the project platform.",
+    "watchExternal": "Watch on the platform",
+    "attachmentsTitle": "Related materials",
+    "attachmentsIntro": "Documents, transcripts and tools connected to this video story.",
+    "attachmentPending": "Coming soon",
+    "back": "Back to video shorts"
   },
   "form": {
     "name": "Name",
@@ -82,7 +96,17 @@
     "statement": "An institutional wireframe for cooperation, research and cultural exchange.",
     "projectLabel": "Project",
     "legalLabel": "Legal information",
-    "copyright": "© 2026 Odessa. Demonstration content."
+    "copyright": "© 2026 Odessa. Demonstration content.",
+    "credits": {
+      "button": "Image credits",
+      "title": "Image credits",
+      "intro": "Sources and licenses for the photographs used on this website.",
+      "author": "Author",
+      "source": "Source",
+      "license": "License",
+      "generated": "Conceptual editorial images were generated with OpenAI and do not document real Odessa project activities or conservation work.",
+      "close": "Close"
+    }
   },
   "metadata": {
     "home": {"title": "Odessa — Cooperation and exchange", "description": "Demonstration wireframe for the Odessa project."},
@@ -91,6 +115,7 @@
     "partners": {"title": "Partners — Odessa", "description": "The Odessa project partner network."},
     "results": {"title": "Results — Odessa", "description": "Demonstration indicators, results and resources."},
     "media": {"title": "Media — Odessa", "description": "News, video and gallery from the Odessa project."},
+    "videoPills": {"title": "Video shorts — Odessa", "description": "Short stories, voices and processes from the Odessa project in video format."},
     "materials": {"title": "Identity materials — Odessa", "description": "Logo concepts, palettes, graphic elements, claims and tone of voice for Odessa."},
     "contact": {"title": "Contact — Odessa", "description": "Contact details and demonstration form for Odessa."},
     "privacy": {"title": "Privacy — Odessa", "description": "Demonstration privacy notice to be replaced."},

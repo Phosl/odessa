@@ -21,7 +21,12 @@ export default async function LocaleLayout({children, params}: {children: ReactN
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
+    <html className="reveal-pending" lang={locale}>
+      <head>
+        <noscript>
+          <style>{'.reveal-pending [data-reveal] { opacity: 1 !important; transform: none !important; }'}</style>
+        </noscript>
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
       </body>

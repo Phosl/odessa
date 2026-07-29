@@ -1,10 +1,11 @@
 import type {Metadata} from 'next'
 import {getTranslations} from 'next-intl/server'
 import {getPageLocale, type LocaleParams} from '@/i18n/locale'
+import {getRouteHref} from '@/i18n/routing'
 import {getSiteContent} from '@/lib/content/repository'
 import {createPageMetadata} from '@/lib/metadata'
 import {MediaArchive} from '@/components/media/MediaArchive'
-import {PageIntro, PageMain, SectionHeading} from '@/components/wireframe/Wireframe'
+import {Cta, CtaSection, PageIntro, PageMain, SectionHeading} from '@/components/wireframe/Wireframe'
 
 export async function generateMetadata({params}: {params: LocaleParams}): Promise<Metadata> {
   return createPageMetadata(await getPageLocale(params), 'media')
@@ -16,7 +17,7 @@ export default async function MediaPage({params}: {params: LocaleParams}) {
   const page = content.media
   return (
     <PageMain>
-      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="05 / 08" /></div></section>
+      <section className="section--hero"><div className="container"><PageIntro {...page.lead} index="05 / 09" /></div></section>
       <section className="section">
         <div className="container">
           <SectionHeading intro={page.archiveIntro} title={page.archiveTitle} />
@@ -28,6 +29,13 @@ export default async function MediaPage({params}: {params: LocaleParams}) {
           />
         </div>
       </section>
+      <CtaSection text={content.videoPills.lead.intro} title={content.videoPills.lead.title}>
+        <Cta
+          destinationLabel={t('navigation.videoPills')}
+          href={getRouteHref('videoPills', locale)}
+          label={t('actions.viewVideoPills')}
+        />
+      </CtaSection>
     </PageMain>
   )
 }

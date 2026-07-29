@@ -1,5 +1,6 @@
 import type {SiteContent} from '../types'
 import {editorialImages, localizeEditorialImage} from '../editorial-images'
+import {videoPillSlugs} from '@/i18n/routing'
 import materials from '../materials/it'
 
 const content = {
@@ -41,6 +42,10 @@ const content = {
       paragraphs: ['Notizie, immagini e video documentano incontri, laboratori e momenti di restituzione.'],
       image: localizeEditorialImage(editorialImages.passage, 'Decorazioni architettoniche del Passage di Odessa', 'Passage di Odessa · fotografia di contesto'),
     },
+    videoPills: {
+      title: 'Storie brevi dal progetto',
+      paragraphs: ['Una serie di pillole video racconta persone, luoghi, gesti e strumenti di Odessa in pochi minuti.'],
+    },
     contact: {
       title: 'Vuoi prendere parte al percorso?',
       paragraphs: ['Scrivici per conoscere le prossime attività o proporre una collaborazione.'],
@@ -80,7 +85,10 @@ const content = {
       {marker: '03 · 2027', title: 'Sperimentazione', text: 'Test delle soluzioni nei contesti partner.'},
       {marker: '04 · 2028', title: 'Restituzione', text: 'Valutazione, pubblicazioni e incontri aperti.'},
     ],
-    image: localizeEditorialImage(editorialImages.stairs, 'Vista frontale della Scalinata Potëmkin a Odessa', 'Scalinata Potëmkin · fotografia di contesto'),
+    images: [
+      localizeEditorialImage(editorialImages.stairs, 'Vista frontale della Scalinata Potëmkin a Odessa', 'Scalinata Potëmkin · fotografia di contesto'),
+      localizeEditorialImage(editorialImages.restorationWorkshop, 'Un gruppo internazionale osserva insieme un manufatto decorato durante un laboratorio', 'Visuale editoriale generata · laboratorio di conservazione'),
+    ],
   },
   activities: {
     lead: {
@@ -154,7 +162,10 @@ const content = {
     media: {
       title: 'Un archivio aperto',
       paragraphs: ['Il racconto visivo accompagna i dati con testimonianze, immagini di processo e materiali pubblici.'],
-      image: localizeEditorialImage(editorialImages.port, 'Il porto di Odessa al tramonto con una barca a vela', 'Porto di Odessa · fotografia di contesto'),
+      images: [
+        localizeEditorialImage(editorialImages.port, 'Il porto di Odessa al tramonto con una barca a vela', 'Porto di Odessa · fotografia di contesto'),
+        localizeEditorialImage(editorialImages.artInstallation, 'Installazione contemporanea blu e gialla in un cortile storico', 'Visuale editoriale generata · installazione culturale'),
+      ],
     },
   },
   media: {
@@ -176,14 +187,74 @@ const content = {
       {id: 'academy', date: '15 gennaio 2027', category: 'Comunicati', title: 'Aperte le candidature all’Academy', excerpt: 'Trenta posti per giovani professionisti e operatori delle comunità partner.'},
     ],
     gallery: [
-      {id: 'photo-01', label: 'Restauro collaborativo', ratio: 'landscape'},
-      {id: 'photo-02', label: 'Dipinto della collezione di Odessa', ratio: 'portrait'},
-      {id: 'photo-03', label: 'Pigmenti e strumenti di conservazione', ratio: 'square'},
-      {id: 'photo-04', label: 'Laboratorio internazionale di conservazione', ratio: 'landscape'},
-      {id: 'photo-05', label: 'Restauro di affreschi', ratio: 'portrait'},
-      {id: 'photo-06', label: 'Installazione contemporanea', ratio: 'square'},
-      {id: 'photo-07', label: 'Museo d’Arte di Odessa', ratio: 'landscape'},
-      {id: 'photo-08', label: 'Installazione sulla memoria materica', ratio: 'portrait'},
+      {id: 'photo-01', label: 'Museo d’Arte di Odessa', ratio: 'landscape', image: localizeEditorialImage(editorialImages.artMuseum, 'Sala espositiva del Museo Nazionale d’Arte di Odessa', 'Museo Nazionale d’Arte di Odessa · fotografia di contesto')},
+      {id: 'photo-02', label: 'Dipinto della collezione di Odessa', ratio: 'portrait', image: localizeEditorialImage(editorialImages.sunnyDay, 'Sunny Day, dipinto di Émile Claus del 1895', 'Sunny Day, Émile Claus, 1895 · Museo d’Arte Occidentale e Orientale di Odessa')},
+      {id: 'photo-03', label: 'Pigmenti e strumenti di conservazione', ratio: 'square', image: localizeEditorialImage(editorialImages.restorationMaterials, 'Pigmenti, campioni e strumenti disposti come un archivio materico', 'Visuale editoriale generata · archivio di pigmenti')},
+      {id: 'photo-04', label: 'Restauro di affreschi', ratio: 'landscape', image: localizeEditorialImage(editorialImages.frescoRestoration, 'Allestimento per il restauro di un affresco di Sant Climent de Taüll', 'Immagine di contesto · restauro di affreschi, MNAC, Barcellona')},
+      {id: 'photo-05', label: 'Dettaglio di conservazione', ratio: 'portrait', image: localizeEditorialImage(editorialImages.restorationFresco, 'Dettaglio ravvicinato di un intervento su una superficie dipinta', 'Visuale editoriale generata · conservazione di un affresco')},
+      {id: 'photo-06', label: 'Installazione contemporanea', ratio: 'square', image: localizeEditorialImage(editorialImages.contemporaryHeritageArt, 'Frammenti materici sospesi con strati blu traslucidi e luce gialla', 'Visuale editoriale generata · memoria materica')},
+      {id: 'photo-07', label: 'Passage di Odessa', ratio: 'landscape', image: localizeEditorialImage(editorialImages.passage, 'Decorazioni architettoniche all’interno del Passage di Odessa', 'Passage di Odessa · fotografia di contesto')},
+      {id: 'photo-08', label: 'Scalinata Potëmkin', ratio: 'portrait', image: localizeEditorialImage(editorialImages.stairs, 'Vista frontale della Scalinata Potëmkin a Odessa', 'Scalinata Potëmkin · fotografia di contesto')},
+    ],
+  },
+  videoPills: {
+    lead: {
+      eyebrow: 'Pillole video',
+      title: 'Il progetto, una storia alla volta.',
+      intro: 'Video brevi per incontrare le persone, entrare nei laboratori e seguire come idee e competenze prendono forma.',
+    },
+    seriesTitle: 'Guarda le pillole',
+    seriesIntro: 'Sei episodi presentano il progetto con funzioni diverse: orientare, insegnare, dare voce e mostrare i processi.',
+    platformLabel: 'Piattaforma video del progetto',
+    categories: [
+      {id: 'discover', label: 'Conosci Odessa'},
+      {id: 'learning', label: 'Didattica'},
+      {id: 'voices', label: 'Voci e testimonianze'},
+      {id: 'behindScenes', label: 'Dietro le quinte'},
+    ],
+    items: [
+      {
+        id: 'intro', slug: videoPillSlugs.intro.it, number: '01', category: 'discover', featured: true,
+        title: 'Odessa in due minuti', summary: 'Persone, luoghi e domande che orientano il percorso comune tra Italia e Ucraina.', duration: '02:00',
+        body: ['Odessa nasce per trasformare la cooperazione in un’esperienza concreta, costruita con le comunità e non soltanto per loro.', 'Questa prima storia introduce il territorio, i partner e le domande che accompagneranno ricerca, formazione e produzione culturale.'],
+        video: {},
+        attachments: [{id: 'transcript', title: 'Trascrizione dell’episodio', format: 'PDF', meta: 'Italiano · Inglese · Ucraino'}],
+      },
+      {
+        id: 'care', slug: videoPillSlugs.care.it, number: '02', category: 'learning', featured: true,
+        title: 'Perché prendersi cura', summary: 'Un gesto, un materiale e una competenza raccontano il valore della conservazione.', duration: '01:30',
+        body: ['Conservare non significa immobilizzare: significa conoscere materiali e storie per scegliere come accompagnarli nel tempo.', 'La pillola osserva un gesto tecnico e lo collega alla responsabilità culturale condivisa tra professionisti, istituzioni e cittadini.'],
+        video: {},
+        attachments: [{id: 'learning-sheet', title: 'Scheda didattica: cura e conservazione', format: 'PDF', meta: '4 pagine'}],
+      },
+      {
+        id: 'voices', slug: videoPillSlugs.voices.it, number: '03', category: 'voices', featured: true,
+        title: 'Voci dai territori', summary: 'Prospettive diverse spiegano bisogni, risorse e aspettative delle comunità coinvolte.', duration: '02:15',
+        body: ['Le priorità del progetto emergono dall’ascolto di chi vive, studia e lavora nei territori coinvolti.', 'Le testimonianze non sono un commento finale: diventano materiale di progetto e orientano attività, strumenti e criteri di valutazione.'],
+        video: {},
+        attachments: [{id: 'voices-transcript', title: 'Trascrizione delle testimonianze', format: 'DOCX', meta: '3 lingue'}],
+      },
+      {
+        id: 'workshop', slug: videoPillSlugs.workshop.it, number: '04', category: 'behindScenes', featured: false,
+        title: 'Dentro il laboratorio', summary: 'Tecniche, strumenti e confronto trasformano l’apprendimento in pratica condivisa.', duration: '01:45',
+        body: ['Nel laboratorio la conoscenza passa attraverso osservazione, prove, errori e confronto tra competenze diverse.', 'La camera segue il processo da vicino per mostrare ciò che spesso resta invisibile nel risultato finale.'],
+        video: {},
+        attachments: [{id: 'tools', title: 'Strumenti e materiali del laboratorio', format: 'PDF', meta: 'Scheda illustrata'}],
+      },
+      {
+        id: 'words', slug: videoPillSlugs.words.it, number: '05', category: 'learning', featured: false,
+        title: 'Parole condivise', summary: 'Termini italiani e ucraini aprono un piccolo vocabolario della cooperazione.', duration: '01:20',
+        body: ['Le parole con cui descriviamo cura, patrimonio e collaborazione non coincidono sempre perfettamente tra lingue e contesti.', 'Il confronto linguistico diventa uno strumento didattico per riconoscere differenze, equivalenze e nuovi significati condivisi.'],
+        video: {},
+        attachments: [{id: 'glossary', title: 'Glossario essenziale italiano–ucraino', format: 'PDF', meta: 'Versione bilingue'}],
+      },
+      {
+        id: 'outcomes', slug: videoPillSlugs.outcomes.it, number: '06', category: 'discover', featured: false,
+        title: 'Quello che resta', summary: 'Esperienze, relazioni e strumenti diventano risorse accessibili oltre il progetto.', duration: '02:00',
+        body: ['Un progetto termina, ma può lasciare metodi, relazioni e materiali capaci di continuare a circolare.', 'Questa storia collega i risultati misurabili alle trasformazioni meno visibili: fiducia, autonomia e capacità di lavorare insieme.'],
+        video: {},
+        attachments: [{id: 'outcomes-note', title: 'Sintesi dei risultati attesi', format: 'PDF', meta: 'Nota editoriale'}],
+      },
     ],
   },
   materials,

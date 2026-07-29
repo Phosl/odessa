@@ -1,5 +1,6 @@
 import type {SiteContent} from '../types'
 import {editorialImages, localizeEditorialImage} from '../editorial-images'
+import {videoPillSlugs} from '@/i18n/routing'
 import materials from '../materials/en'
 
 const content = {
@@ -20,6 +21,7 @@ const content = {
     results: {title: 'Readable, verifiable impact', paragraphs: ['Simple indicators describe participation, collaborations and materials produced throughout the programme.']},
     partners: {title: 'A multidisciplinary network', paragraphs: ['Public bodies, universities and civic organizations contribute complementary perspectives.']},
     media: {title: 'The project as it unfolds', paragraphs: ['News, images and videos document meetings, workshops and public presentations.'], image: localizeEditorialImage(editorialImages.passage, 'Architectural decorations inside the Odesa Passage', 'Odesa Passage · contextual photograph')},
+    videoPills: {title: 'Short stories from the project', paragraphs: ['A series of video shorts introduces Odessa’s people, places, gestures and tools in just a few minutes.']},
     contact: {title: 'Would you like to join the journey?', paragraphs: ['Contact us to learn about upcoming activities or propose a collaboration.']},
   },
   project: {
@@ -35,7 +37,10 @@ const content = {
       {marker: '03 · 2027', title: 'Experimentation', text: 'Testing solutions in partner contexts.'},
       {marker: '04 · 2028', title: 'Public return', text: 'Evaluation, publications and open meetings.'},
     ],
-    image: localizeEditorialImage(editorialImages.stairs, 'Front view of the Potemkin Stairs in Odesa', 'Potemkin Stairs · contextual photograph'),
+    images: [
+      localizeEditorialImage(editorialImages.stairs, 'Front view of the Potemkin Stairs in Odesa', 'Potemkin Stairs · contextual photograph'),
+      localizeEditorialImage(editorialImages.restorationWorkshop, 'An international group studies a decorated object together during a workshop', 'Generated editorial visual · conservation workshop'),
+    ],
   },
   activities: {
     lead: {eyebrow: 'Activities', title: 'Learn, experiment, give back.', intro: 'The programme combines research, training and production to generate useful outcomes that continue beyond the project.'},
@@ -83,7 +88,14 @@ const content = {
       {id: 'toolkit', type: 'PDF · Demo', title: 'Operational toolkit', description: 'Methods and worksheets for replicating workshops.'},
       {id: 'dataset', type: 'XLSX · Demo', title: 'Indicator dataset', description: 'Demonstration structure for monitoring.'},
     ],
-    media: {title: 'An open archive', paragraphs: ['The visual story complements the data with voices, process images and public materials.'], image: localizeEditorialImage(editorialImages.port, 'Odesa port at sunset with a sailing boat', 'Odesa port · contextual photograph')},
+    media: {
+      title: 'An open archive',
+      paragraphs: ['The visual story complements the data with voices, process images and public materials.'],
+      images: [
+        localizeEditorialImage(editorialImages.port, 'Odesa port at sunset with a sailing boat', 'Odesa port · contextual photograph'),
+        localizeEditorialImage(editorialImages.artInstallation, 'A blue-and-yellow contemporary installation in a historic courtyard', 'Generated editorial visual · cultural installation'),
+      ],
+    },
   },
   media: {
     lead: {eyebrow: 'Media', title: 'Follow the project closely.', intro: 'A demonstration archive brings together updates, images and videos produced throughout the journey.'},
@@ -96,14 +108,70 @@ const content = {
       {id: 'academy', date: '15 January 2027', category: 'Press release', title: 'Applications open for the Academy', excerpt: 'Thirty places for young professionals and people working in partner communities.'},
     ],
     gallery: [
-      {id: 'photo-01', label: 'Collaborative restoration', ratio: 'landscape'},
-      {id: 'photo-02', label: 'Painting from the Odesa collection', ratio: 'portrait'},
-      {id: 'photo-03', label: 'Pigments and conservation tools', ratio: 'square'},
-      {id: 'photo-04', label: 'International conservation workshop', ratio: 'landscape'},
-      {id: 'photo-05', label: 'Fresco restoration', ratio: 'portrait'},
-      {id: 'photo-06', label: 'Contemporary installation', ratio: 'square'},
-      {id: 'photo-07', label: 'Odesa Fine Arts Museum', ratio: 'landscape'},
-      {id: 'photo-08', label: 'Material memory installation', ratio: 'portrait'},
+      {id: 'photo-01', label: 'Odesa Fine Arts Museum', ratio: 'landscape', image: localizeEditorialImage(editorialImages.artMuseum, 'Exhibition room inside the Odesa Fine Arts Museum', 'Odesa Fine Arts Museum · contextual photograph')},
+      {id: 'photo-02', label: 'Painting from the Odesa collection', ratio: 'portrait', image: localizeEditorialImage(editorialImages.sunnyDay, 'Sunny Day, a painting by Émile Claus from 1895', 'Sunny Day, Émile Claus, 1895 · Odesa Museum of Western and Eastern Art')},
+      {id: 'photo-03', label: 'Pigments and conservation tools', ratio: 'square', image: localizeEditorialImage(editorialImages.restorationMaterials, 'Pigments, samples and tools arranged as a material archive', 'Generated editorial visual · pigment archive')},
+      {id: 'photo-04', label: 'Fresco restoration', ratio: 'landscape', image: localizeEditorialImage(editorialImages.frescoRestoration, 'Conservation setup for a fresco from Sant Climent de Taüll', 'Context image · fresco restoration, MNAC, Barcelona')},
+      {id: 'photo-05', label: 'Conservation detail', ratio: 'portrait', image: localizeEditorialImage(editorialImages.restorationFresco, 'Close view of conservation work on a painted surface', 'Generated editorial visual · fresco conservation')},
+      {id: 'photo-06', label: 'Contemporary installation', ratio: 'square', image: localizeEditorialImage(editorialImages.contemporaryHeritageArt, 'Suspended material fragments with translucent blue layers and yellow light', 'Generated editorial visual · material memory')},
+      {id: 'photo-07', label: 'Odesa Passage', ratio: 'landscape', image: localizeEditorialImage(editorialImages.passage, 'Architectural decorations inside the Odesa Passage', 'Odesa Passage · contextual photograph')},
+      {id: 'photo-08', label: 'Potemkin Stairs', ratio: 'portrait', image: localizeEditorialImage(editorialImages.stairs, 'Front view of the Potemkin Stairs in Odesa', 'Potemkin Stairs · contextual photograph')},
+    ],
+  },
+  videoPills: {
+    lead: {eyebrow: 'Video shorts', title: 'The project, one story at a time.', intro: 'Short videos to meet the people, step inside the workshops and follow ideas and skills as they take shape.'},
+    seriesTitle: 'Watch the series',
+    seriesIntro: 'Six episodes serve different editorial roles: orient, teach, give people a voice and reveal the process.',
+    platformLabel: 'Project video platform',
+    categories: [
+      {id: 'discover', label: 'Discover Odessa'},
+      {id: 'learning', label: 'Learning'},
+      {id: 'voices', label: 'Voices and stories'},
+      {id: 'behindScenes', label: 'Behind the scenes'},
+    ],
+    items: [
+      {
+        id: 'intro', slug: videoPillSlugs.intro.en, number: '01', category: 'discover', featured: true,
+        title: 'Odessa in two minutes', summary: 'The people, places and questions guiding the shared journey between Italy and Ukraine.', duration: '02:00',
+        body: ['Odessa turns cooperation into a concrete experience built with communities, not simply for them.', 'This opening story introduces the territories, partners and questions that will guide research, learning and cultural production.'],
+        video: {},
+        attachments: [{id: 'transcript', title: 'Episode transcript', format: 'PDF', meta: 'Italian · English · Ukrainian'}],
+      },
+      {
+        id: 'care', slug: videoPillSlugs.care.en, number: '02', category: 'learning', featured: true,
+        title: 'Why care matters', summary: 'One gesture, one material and one skill reveal the value of conservation.', duration: '01:30',
+        body: ['Conservation is not about freezing things in place. It means understanding materials and stories in order to accompany them through time.', 'The video observes one technical gesture and connects it to a cultural responsibility shared by professionals, institutions and citizens.'],
+        video: {},
+        attachments: [{id: 'learning-sheet', title: 'Learning sheet: care and conservation', format: 'PDF', meta: '4 pages'}],
+      },
+      {
+        id: 'voices', slug: videoPillSlugs.voices.en, number: '03', category: 'voices', featured: true,
+        title: 'Voices from the territories', summary: 'Different perspectives explain the needs, resources and hopes of participating communities.', duration: '02:15',
+        body: ['Project priorities emerge by listening to people who live, study and work in the participating territories.', 'Their voices are not a final commentary: they become project material and guide activities, tools and evaluation criteria.'],
+        video: {},
+        attachments: [{id: 'voices-transcript', title: 'Testimony transcript', format: 'DOCX', meta: '3 languages'}],
+      },
+      {
+        id: 'workshop', slug: videoPillSlugs.workshop.en, number: '04', category: 'behindScenes', featured: false,
+        title: 'Inside the workshop', summary: 'Techniques, tools and dialogue turn learning into shared practice.', duration: '01:45',
+        body: ['In the workshop, knowledge moves through observation, trials, errors and dialogue between different skills.', 'The camera follows the process closely to reveal what often remains invisible in the final outcome.'],
+        video: {},
+        attachments: [{id: 'tools', title: 'Workshop tools and materials', format: 'PDF', meta: 'Illustrated sheet'}],
+      },
+      {
+        id: 'words', slug: videoPillSlugs.words.en, number: '05', category: 'learning', featured: false,
+        title: 'Shared words', summary: 'Italian and Ukrainian terms open a small vocabulary of cooperation.', duration: '01:20',
+        body: ['The words used for care, heritage and cooperation do not always align perfectly across languages and contexts.', 'Comparing them becomes a learning tool for recognising differences, equivalents and new shared meanings.'],
+        video: {},
+        attachments: [{id: 'glossary', title: 'Essential Italian–Ukrainian glossary', format: 'PDF', meta: 'Bilingual edition'}],
+      },
+      {
+        id: 'outcomes', slug: videoPillSlugs.outcomes.en, number: '06', category: 'discover', featured: false,
+        title: 'What remains', summary: 'Experiences, relationships and tools become accessible resources beyond the project.', duration: '02:00',
+        body: ['A project ends, but it can leave methods, relationships and materials that continue to circulate.', 'This story connects measurable outputs with less visible changes: trust, autonomy and the ability to work together.'],
+        video: {},
+        attachments: [{id: 'outcomes-note', title: 'Expected outcomes summary', format: 'PDF', meta: 'Editorial note'}],
+      },
     ],
   },
   materials,
