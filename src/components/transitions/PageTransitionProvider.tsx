@@ -67,6 +67,25 @@ function randomizeLineFlow(lines: NodeListOf<HTMLElement>) {
   })
 }
 
+function groupLinesFromCenter(lines: NodeListOf<HTMLElement>) {
+  const items = Array.from(lines)
+  const groups: HTMLElement[][] = []
+  const upperCenter = Math.floor((items.length - 1) / 2)
+  const lowerCenter = Math.ceil((items.length - 1) / 2)
+
+  for (let offset = 0; offset < items.length; offset += 1) {
+    const upper = upperCenter - offset
+    const lower = lowerCenter + offset
+    const group: HTMLElement[] = []
+    if (upper >= 0) group.push(items[upper])
+    if (lower !== upper && lower < items.length) group.push(items[lower])
+    if (!group.length) break
+    groups.push(group)
+  }
+
+  return groups
+}
+
 export function PageTransitionProvider({children, openingAnnouncement, announcement}: {children: ReactNode; openingAnnouncement: string; announcement: string}) {
   const pathname = usePathname()
   const router = useRouter()
@@ -233,7 +252,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     gsap.set(overlay, {display: 'block'})
     randomizeLineFlow(lines)
     resetLineFlow(lines)
-    const orderedLines = shuffle(Array.from(lines))
+    const lineGroups = groupLinesFromCenter(lines)
 
     const timeline = gsap.timeline({
       onComplete: () => {
@@ -248,13 +267,16 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
         commit()
       }, undefined, 0.62)
 
-    orderedLines.forEach((line, index) => {
-      const flow = getLineFlow(line)
-      const entranceStart = (index * 0.035) + (Math.random() * 0.02)
-      const exitStart = 0.72 + (index * 0.025) + (Math.random() * 0.02)
-      timeline
-        .to(line, {clipPath: FULL_LINE_CLIP, duration: 0.38, ease: 'power3.inOut'}, entranceStart)
-        .to(line, {clipPath: flow.exitClip, duration: 0.42, ease: 'power3.inOut'}, exitStart)
+    lineGroups.forEach((group, groupIndex) => {
+      const entranceStart = groupIndex * 0.09
+      const exitStart = 0.72 + (groupIndex * 0.07)
+      group.forEach((line) => {
+        const flow = getLineFlow(line)
+        line.dataset.transitionWave = String(groupIndex)
+        timeline
+          .to(line, {clipPath: FULL_LINE_CLIP, duration: 0.38, ease: 'power3.inOut'}, entranceStart)
+          .to(line, {clipPath: flow.exitClip, duration: 0.42, ease: 'power3.inOut'}, exitStart)
+      })
     })
     timelineRef.current = timeline
   }, [finishWhenReady, openingAnnouncement, router])

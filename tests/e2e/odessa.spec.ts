@@ -443,7 +443,7 @@ test('does not run a second entry tween on the page content', async ({page}) => 
   expect(hasVisibleReset).toBeFalsy()
 })
 
-test('flows only randomized blue lines continuously into the destination', async ({page}, testInfo) => {
+test('flows fullscreen blue lines from the center into the destination', async ({page}, testInfo) => {
   if (testInfo.project.name === 'desktop') await page.setViewportSize({width: 1440, height: 1000})
   await page.goto('/en')
   const overlay = page.getByTestId('transition-overlay')
@@ -477,6 +477,9 @@ test('flows only randomized blue lines continuously into the destination', async
   const directions = await lines.evaluateAll((items) => items.map((item) => item.getAttribute('data-direction')))
   expect(directions.filter((direction) => direction === 'ltr')).toHaveLength(3)
   expect(directions.filter((direction) => direction === 'rtl')).toHaveLength(3)
+  await expect.poll(() => lines.evaluateAll(
+    (items) => items.map((item) => item.getAttribute('data-transition-wave')),
+  )).toEqual(['2', '1', '0', '0', '1', '2'])
   await expect(page).toHaveURL(/\/en$/)
   await expect(page.locator('[aria-live="polite"]')).toHaveText('Opening page: The project')
   if (testInfo.project.name === 'desktop') {
