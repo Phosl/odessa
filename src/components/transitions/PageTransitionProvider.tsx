@@ -29,61 +29,11 @@ function prefersReducedMotion() {
 
 const LINE_COUNT = 6
 const PENDING_FOCUS_KEY = 'odessa-pending-focus'
-const FULL_LINE_CLIP = 'inset(0 0% 0 0)'
-const LINE_FLOW = {
-  ltr: {
-    enterClip: 'inset(0 100% 0 0)',
-    exitClip: 'inset(0 0 0 100%)',
-  },
-  rtl: {
-    enterClip: 'inset(0 0 0 100%)',
-    exitClip: 'inset(0 100% 0 0)',
-  },
-} as const
-
-function getLineFlow(line: HTMLElement) {
-  return LINE_FLOW[line.dataset.direction === 'rtl' ? 'rtl' : 'ltr']
-}
+const LINE_ENTRY_OFFSET = 24
+const LINE_EXIT_OFFSET = -16
 
 function resetLineFlow(lines: NodeListOf<HTMLElement>) {
-  lines.forEach((line) => gsap.set(line, {clipPath: getLineFlow(line).enterClip}))
-}
-
-function shuffle<T>(items: T[]) {
-  for (let index = items.length - 1; index > 0; index -= 1) {
-    const target = Math.floor(Math.random() * (index + 1))
-    ;[items[index], items[target]] = [items[target], items[index]]
-  }
-  return items
-}
-
-function randomizeLineFlow(lines: NodeListOf<HTMLElement>) {
-  const directions = shuffle(Array.from(
-    {length: lines.length},
-    (_, index) => index < Math.ceil(lines.length / 2) ? 'ltr' : 'rtl',
-  ))
-  lines.forEach((line, index) => {
-    line.dataset.direction = directions[index]
-  })
-}
-
-function groupLinesFromCenter(lines: NodeListOf<HTMLElement>) {
-  const items = Array.from(lines)
-  const groups: HTMLElement[][] = []
-  const upperCenter = Math.floor((items.length - 1) / 2)
-  const lowerCenter = Math.ceil((items.length - 1) / 2)
-
-  for (let offset = 0; offset < items.length; offset += 1) {
-    const upper = upperCenter - offset
-    const lower = lowerCenter + offset
-    const group: HTMLElement[] = []
-    if (upper >= 0) group.push(items[upper])
-    if (lower !== upper && lower < items.length) group.push(items[lower])
-    if (!group.length) break
-    groups.push(group)
-  }
-
-  return groups
+  lines.forEach((line) => gsap.set(line, {opacity: 0, y: LINE_ENTRY_OFFSET}))
 }
 
 export function PageTransitionProvider({children, openingAnnouncement, announcement}: {children: ReactNode; openingAnnouncement: string; announcement: string}) {
@@ -250,9 +200,8 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
     timelineRef.current?.kill()
     overlay.dataset.transitionState = 'building'
     gsap.set(overlay, {display: 'block'})
-    randomizeLineFlow(lines)
     resetLineFlow(lines)
-    const lineGroups = groupLinesFromCenter(lines)
+    const orderedLines = Array.from(lines).reverse()
 
     const timeline = gsap.timeline({
       onComplete: () => {
@@ -265,18 +214,12 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
       .call(() => {
         overlay.dataset.transitionState = 'navigating'
         commit()
-      }, undefined, 0.62)
+      }, undefined, 0.58)
 
-    lineGroups.forEach((group, groupIndex) => {
-      const entranceStart = groupIndex * 0.09
-      const exitStart = 0.72 + (groupIndex * 0.07)
-      group.forEach((line) => {
-        const flow = getLineFlow(line)
-        line.dataset.transitionWave = String(groupIndex)
-        timeline
-          .to(line, {clipPath: FULL_LINE_CLIP, duration: 0.38, ease: 'power3.inOut'}, entranceStart)
-          .to(line, {clipPath: flow.exitClip, duration: 0.42, ease: 'power3.inOut'}, exitStart)
-      })
+    orderedLines.forEach((line, index) => {
+      timeline
+        .to(line, {opacity: 1, y: 0, duration: 0.24, ease: 'power3.out'}, index * 0.055)
+        .to(line, {opacity: 0, y: LINE_EXIT_OFFSET, duration: 0.26, ease: 'power2.inOut'}, 0.66 + (index * 0.045))
     })
     timelineRef.current = timeline
   }, [finishWhenReady, openingAnnouncement, router])
@@ -359,7 +302,7 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
         <div aria-hidden="true" className={styles.overlay} data-testid="transition-overlay" data-transition-state="idle" ref={overlayRef}>
           <div className={styles.lines}>
             {Array.from({length: LINE_COUNT}, (_, index) => (
-              <span className={styles.line} data-direction={index % 2 === 0 ? 'ltr' : 'rtl'} data-transition-line key={index} />
+              <span className={styles.line} data-transition-line data-transition-order={LINE_COUNT - 1 - index} key={index} />
             ))}
           </div>
         </div>

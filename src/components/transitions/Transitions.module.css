@@ -24,14 +24,8 @@
   background: var(--brand-blue);
   display: block;
   height: 100%;
+  opacity: 0;
+  transform: translateY(1.5rem);
   width: 100%;
-  will-change: clip-path;
-}
-
-.line[data-direction="ltr"] {
-  clip-path: inset(0 100% 0 0);
-}
-
-.line[data-direction="rtl"] {
-  clip-path: inset(0 0 0 100%);
+  will-change: opacity, transform;
 }

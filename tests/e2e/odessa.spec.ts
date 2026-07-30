@@ -470,14 +470,14 @@ test('does not run a second entry tween on the page content', async ({page}) => 
   expect(hasVisibleReset).toBeFalsy()
 })
 
-test('flows fullscreen blue lines from the center into the destination', async ({page}, testInfo) => {
+test('staggers fullscreen blue lines upward from the bottom', async ({page}, testInfo) => {
   if (testInfo.project.name === 'desktop') await page.setViewportSize({width: 1440, height: 1000})
   await page.goto('/en')
   const overlay = page.getByTestId('transition-overlay')
   const lines = overlay.locator('[data-transition-line]')
   await expect(lines).toHaveCount(6)
-  await expect(lines.nth(0)).toHaveCSS('clip-path', 'inset(0px 100% 0px 0px)')
-  await expect(lines.nth(1)).toHaveCSS('clip-path', 'inset(0px 0px 0px 100%)')
+  await expect(lines.nth(0)).toHaveCSS('opacity', '0')
+  await expect(lines.nth(5)).toHaveCSS('opacity', '0')
   await expect(lines.nth(0)).toHaveCSS('background-color', 'rgb(37, 156, 211)')
   await expect(overlay.locator('[data-transition-stripe]')).toHaveCount(0)
   await expect(page.getByTestId('transition-diamond')).toHaveCount(0)
@@ -487,26 +487,23 @@ test('flows fullscreen blue lines from the center into the destination', async (
   await expect(overlay).toBeVisible()
   await expect(overlay).toHaveAttribute('data-transition-state', /building|flowing|navigating/)
   const coverage = await lines.evaluateAll((items) => {
-    const rects = items.map((item) => item.getBoundingClientRect())
+    const container = items[0]?.parentElement?.getBoundingClientRect()
     return {
-      top: rects[0]?.top ?? -1,
-      bottom: rects.at(-1)?.bottom ?? -1,
+      top: container?.top ?? -1,
+      bottom: container?.bottom ?? -1,
       viewportHeight: window.innerHeight,
       viewportWidth: window.innerWidth,
-      widths: rects.map((rect) => rect.width),
-      gaps: rects.slice(1).map((rect, index) => rect.top - rects[index].bottom),
+      widths: items.map((item) => (item as HTMLElement).offsetWidth),
     }
   })
   expect(Math.abs(coverage.top)).toBeLessThan(1)
   expect(Math.abs(coverage.bottom - coverage.viewportHeight)).toBeLessThan(1)
   expect(coverage.widths.every((width) => Math.abs(width - coverage.viewportWidth) < 1)).toBeTruthy()
-  expect(coverage.gaps.every((gap) => Math.abs(gap) < 1)).toBeTruthy()
   const directions = await lines.evaluateAll((items) => items.map((item) => item.getAttribute('data-direction')))
-  expect(directions.filter((direction) => direction === 'ltr')).toHaveLength(3)
-  expect(directions.filter((direction) => direction === 'rtl')).toHaveLength(3)
-  await expect.poll(() => lines.evaluateAll(
-    (items) => items.map((item) => item.getAttribute('data-transition-wave')),
-  )).toEqual(['2', '1', '0', '0', '1', '2'])
+  expect(directions.every((direction) => direction === null)).toBeTruthy()
+  await expect(lines.evaluateAll(
+    (items) => items.map((item) => item.getAttribute('data-transition-order')),
+  )).resolves.toEqual(['5', '4', '3', '2', '1', '0'])
   await expect(page).toHaveURL(/\/en$/)
   await expect(page.locator('[aria-live="polite"]')).toHaveText('Opening page: The project')
   if (testInfo.project.name === 'desktop') {
