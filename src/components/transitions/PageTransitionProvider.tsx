@@ -217,9 +217,13 @@ export function PageTransitionProvider({children, openingAnnouncement, announcem
       }, undefined, 0.58)
 
     orderedLines.forEach((line, index) => {
+      const entranceStart = index * 0.055
+      const exitStart = 0.66 + (index * 0.045)
       timeline
-        .to(line, {opacity: 1, y: 0, duration: 0.24, ease: 'power3.out'}, index * 0.055)
-        .to(line, {opacity: 0, y: LINE_EXIT_OFFSET, duration: 0.26, ease: 'power2.inOut'}, 0.66 + (index * 0.045))
+        .set(line, {opacity: 1}, entranceStart)
+        .to(line, {y: 0, duration: 0.24, ease: 'power3.out'}, entranceStart)
+        .to(line, {y: LINE_EXIT_OFFSET, duration: 0.26, ease: 'power2.inOut'}, exitStart)
+        .set(line, {opacity: 0}, exitStart + 0.26)
     })
     timelineRef.current = timeline
   }, [finishWhenReady, openingAnnouncement, router])
