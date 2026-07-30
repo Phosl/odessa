@@ -22,7 +22,9 @@
 
 .line {
   background: var(--brand-blue);
-  box-shadow: 0 0 0 2px var(--brand-blue);
+  box-shadow:
+    0 0 0 2px var(--brand-blue),
+    0 10px 20px -16px rgb(0 44 70 / 32%);
   display: block;
   height: 100%;
   opacity: 0;
